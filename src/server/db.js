@@ -1,6 +1,11 @@
 "use strict";
 const sqlite3 = require('sqlite3').verbose();
+const Users = require('./Schemas/User');
+const Events = require('./Schemas/Events');
 
+
+//this is our general database for now but in the future, we will need to seperate
+//and create individual tables, thus creating indivi. schemas such as above
 class Db {
     constructor(file) {
         this.db = new sqlite3.Database(file);
