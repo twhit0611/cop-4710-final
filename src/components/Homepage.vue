@@ -1,11 +1,14 @@
 <template>
   <div class="main">
+    <notifications group="alerts" />
     <div class="routing">
       <ul>
         <li><a href="register">Register</a><li>
         <li><a href="login">Login</a></li>
         <li><a href="dashboard">Access Dashboard</a></li>
         <li><a href="admin">Access Admin Dashboard</a></li>
+        <li><a href="superadmin">Access Super-Admin Dashboard</a></li>
+        <li><a v-on:click="handleLogout">Logout</a></li>
       </ul>
     </div>
     <br>
@@ -29,10 +32,35 @@
 </template>
 
 <script>
+import Notifications from 'vue-notification'
+
 export default {
   data(){
     return {
       msg: 'Create events for your campus'
+    }
+  },
+  methods: {
+    handleLogout(e) {
+      if (localStorage.getItem('jwt') != null) {
+        localStorage.removeItem('jwt')
+        localStorage.removeItem('user')
+        this.$emit('loggedOut')
+        this.$notify({
+          group: 'alerts',
+          title: 'Logged Out',
+          text: 'Successfully Logged Out.',
+          closeOnClick: true
+        })
+      }
+      else {
+        this.$notify({
+          group: 'alerts',
+          title: 'Failed Logout',
+          text: 'No account to logout.',
+          closeOnClick: true
+        })
+      }
     }
   }
 }
@@ -59,6 +87,7 @@ export default {
   }
 
   h3 {
+    font-size: 140%;
     font-weight: normal;
     border-bottom: 3px solid #e0c600;
     background: black;
@@ -106,7 +135,7 @@ export default {
   li a:hover {
     background-color: #e0c600;
     color: white;
-    
+    cursor: pointer;
   }
 
   body {
