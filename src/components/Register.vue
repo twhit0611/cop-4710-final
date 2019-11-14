@@ -2,7 +2,7 @@
     <div class="main">
         <img src="@/assets/registration.png" class="titleImage">
         <h4>Register</h4>
-        <form>
+        <form class="registerForm">
             <label for="name">Name</label>
             <div>
                 <input id="name" type="text" v-model="name" required autofocus>
@@ -150,7 +150,6 @@ select {
     color: white;
     border: 3px solid #e0c600;
 }
-
 
 button {
     background: black;

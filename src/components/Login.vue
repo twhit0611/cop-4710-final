@@ -74,12 +74,59 @@
     }
 </script>
 
-<style scoped>
+<style>
 img {
   max-width: 25%;
   max-height: 25%;
   width: auto;
   height: auto;
+}
+
+h4 {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    font-size: 120%;
+    font-weight: bold;
+    border-bottom: 3px solid #e0c600;
+    background: black;
+    width: 30%;
+    color:white;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    border-bottom: 3px solid #e0c600;
+    background: black;
+    width: 200px;
+    margin: auto;
+    color: white;
+}
+
+input {
+    margin: 10px;
+    width: 194px;
+    border: 3px solid #e0c600;
+}
+
+select {
+    margin: 10px;
+    background: black;
+    color: white;
+    border: 3px solid #e0c600;
+}
+
+
+button {
+    background: black;
+    border: 3px solid #e0c600;
+    color: white;
+    width: 150px;
+    font-size: 110%;
+    height: 40px;
+    margin: 10px;
 }
 
 body {
