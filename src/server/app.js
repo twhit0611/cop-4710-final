@@ -27,7 +27,8 @@ router.post('/register', function(req, res) {
     db.insert([
         req.body.name,
         req.body.email,
-        bcrypt.hashSync(req.body.password, 8)
+        bcrypt.hashSync(req.body.password, 8),
+        0
     ],
     function (err) {
         if (err) return res.status(500).send("There was a problem registering the user.")

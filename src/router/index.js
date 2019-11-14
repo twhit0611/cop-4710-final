@@ -14,7 +14,10 @@ let router = new Router ({
     {
       path: '/',
       name: 'HomePage',
-      component: Homepage
+      component: Homepage,
+      meta: {
+        guest: true
+      }
     },
     {
       path: '/login',
@@ -53,35 +56,46 @@ let router = new Router ({
 })
 
 router.beforeEach((to, from, next) => {
-    if(to.matched.some(record => record.meta.requiresAuth)) {
-        if (localStorage.getItem('jwt') == null) {
-            next({
-                path: '/login',
-                params: { nextUrl: to.fullPath }
-            })
-        } else {
-            let user = JSON.parse(localStorage.getItem('user'))
-            if(to.matched.some(record => record.meta.is_admin)) {
-                if(user.is_admin == 1){
-                    next()
-                }
-                else{
-                    next({ name: 'userboard'})
-                }
-            }else {
-                next()
-            }
-        }
-    } else if(to.matched.some(record => record.meta.guest)) {
-        if(localStorage.getItem('jwt') == null){
-            next()
-        }
-        else{
-            next({ name: 'userboard'})
-        }
-    }else {
-        next() 
+  // if the record requires authentication
+  if (to.matched.some(record => record.meta.requiresAuth))  {
+    // if the user is not authenticated, navigate them to login
+    if (localStorage.getItem('jwt') == null) {
+      next({
+        path: '/login',
+        params: {nextUrl: to.fullPath}
+      })
     }
+    // the user is authenticated in this case
+    else {
+      let user = JSON.parse(localStorage.getItem('user'))
+      // if the record requires you to be admin
+      if (to.matched.some(record => record.meta.is_admin)) {
+        // if admin, navigate to the record
+        if (user.is_admin == 1) {
+          next()
+        }
+        // otherwise, nagivate to normal dashboard
+        else {
+          next({name: 'dashboard'})
+        }
+      }
+      next()
+    }
+  }
+  else if (to.matched.some(record => record.meta.guest)) {
+    if (localStorage.getItem('jwt') == null) {
+      next()
+    }
+    else {
+      let user = JSON.parse(localStorage.getItem('user'))
+      if (user.is_admin == 1) {
+        next({name: 'admin'})
+      }
+      else {
+        next({name: 'dashboard'})
+      }
+    }
+  }
 })
 
 export default router

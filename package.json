@@ -16,6 +16,7 @@
     "bcrypt": "^3.0.6",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
+    "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "sqlite3": "^4.1.0",
     "vue": "^2.5.2",
@@ -76,5 +77,15 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twhit0611/cop-4710-final.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/twhit0611/cop-4710-final/issues"
+  },
+  "homepage": "https://github.com/twhit0611/cop-4710-final#readme"
 }
