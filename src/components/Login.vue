@@ -17,19 +17,23 @@
                 <button type="submit" @click="handleSubmit">Login</button>
             </div>
         </form>
+        <div>
+            <h4>Don't have an account?</h4>
+            <button type="submit" v-on:click="goToRegister">Register</button>
+        </div>
     </div>    
 </template>
 
 <script>
     export default {
-        data(){
+        data() {
             return {
                 email : "",
                 password : ""
             }
         },
         methods : {
-            handleSubmit(e){
+            handleSubmit(e) {
                 e.preventDefault()
                 if (this.password.length > 0) {
                     this.$http.post('http://localhost:3000/login', {
@@ -40,14 +44,16 @@
                         let is_admin = response.data.user.is_admin
                         localStorage.setItem('user',JSON.stringify(response.data.user))
                         localStorage.setItem('jwt',response.data.token)
-
-                        if (localStorage.getItem('jwt') != null){
+                        if (localStorage.getItem('jwt') != null) {
                             this.$emit('loggedIn')
-                            if(this.$route.params.nextUrl != null){
+                            if(this.$route.params.nextUrl != null) {
                                 this.$router.push(this.$route.params.nextUrl)
                             }
                             else {
-                                if(is_admin== 1){
+                                if (is_admin==2) {
+                                    this.$router.push('superadmin')
+                                }
+                                if (is_admin==1) {
                                     this.$router.push('admin')
                                 }
                                 else {
@@ -60,6 +66,9 @@
                         console.error(error.response);
                     });
                 }
+            },
+            goToRegister(e) {
+                this.$router.push('/register')
             }
         }
     }

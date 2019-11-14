@@ -93,10 +93,10 @@
 
                     return alert("Passwords do not match or no input.")
                 }
-            }
-        },
-        goToLogin(e) {
+            },
+            goToLogin(e) {
             this.$router.push('/login')
+            }
         }
     }
 </script>
