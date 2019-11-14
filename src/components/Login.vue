@@ -81,4 +81,8 @@ img {
   width: auto;
   height: auto;
 }
+
+body {
+  background-image: url("https://knightnews.com/wp-content/uploads/2017/10/14712758_10157511833500527_1554147307089290995_o-1.jpg");
+}
 </style>

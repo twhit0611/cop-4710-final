@@ -103,6 +103,7 @@ export default {
     background-color: black;
     border-bottom: 5px solid #e0c600;
     position: fixed;
+    left:0px;
     top:0;
     width:100%;
     margin: auto;
