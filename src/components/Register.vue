@@ -23,20 +23,24 @@
                 <input id="password-confirm" type="password" v-model="password_confirmation" required>
             </div>
 
-            <label for="password-confirm">Is this an administrator account?</label>
+            <label for="password-confirm">What is this account's type?</label>
             <div>
                 <select v-model="is_admin">
-                    <option value=1>Yes</option>
-                    <option value=0>No</option>
+                    <option value=2>Super-Admin</option>
+                    <option value=1>Admin</option>
+                    <option value=0>User</option>
                 </select>
             </div>
-
             <div>
                 <button type="submit" @click="handleSubmit">
                     Register
                 </button>
             </div>
         </form>
+        <div>
+            <h4>Already have an account?</h4>
+            <button type="submit" v-on:click="goToLogin">Go to login</button>
+        </div>
     </div>
 </template>
 
@@ -49,7 +53,7 @@
                 email : "",
                 password : "",
                 password_confirmation : "",
-                is_admin : 0
+                is_admin : null
             }
         },
         methods : {
@@ -59,6 +63,7 @@
                 {
                     let url = "http://localhost:3000/register"
                     if(this.is_admin == 1) url = "http://localhost:3000/register-admin"
+                    else if(this.is_admin == 2) url = "http://localhost:3000/register-super-admin"
                     this.$http.post(url, {
                         name: this.name,
                         email: this.email,
@@ -71,28 +76,34 @@
                         if (localStorage.getItem('jwt') != null){
                             this.$emit('loggedIn')
                             if(this.$route.params.nextUrl != null){
-                                this.$router.push(this.$route.params.nextUrl)
+                                this.$router.go(this.$route.params.nextUrl)
                             }
                             else{
-                                this.$router.push('/register')
+                                this.$router.go('/')
                             }
                         }
                     })
                     .catch(error => {
                         console.error(error);
-                    });
-                } else {
+                    })
+                } 
+                else {
                     this.password = ""
                     this.passwordConfirm = ""
 
                     return alert("Passwords do not match or no input.")
                 }
             }
+        },
+        goToLogin(e) {
+            this.$router.push('/login')
         }
     }
 </script>
 
 <style scoped>
+
+
 img {
     max-width: 25%;
     max-height: 25%;
