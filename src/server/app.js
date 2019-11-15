@@ -5,6 +5,7 @@ const config = require('./config')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
+const EventsDB = require('./Schemas/Events');
 
 const db = new DB("sqlitedb")
 const app = express()
@@ -14,7 +15,7 @@ router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 
 // CORS middleware
-const allowCrossDomain = function(req, res, next) {
+const allowCrossDomain = (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Methods', '*')
     res.header('Access-Control-Allow-Headers', '*')
@@ -23,14 +24,14 @@ const allowCrossDomain = function(req, res, next) {
 
 app.use(allowCrossDomain)
 
-router.post('/register', function(req, res) {
+router.post('/register', (req, res) => {
     db.insert([
         req.body.name,
         req.body.email,
         bcrypt.hashSync(req.body.password, 8),
         0
     ],
-    function (err) {
+    (err) => {
         if (err) return res.status(500).send("There was a problem registering the user.")
         db.selectByEmail(req.body.email, (err,user) => {
             if (err) return res.status(500).send("There was a problem getting user")
@@ -41,14 +42,14 @@ router.post('/register', function(req, res) {
     })
 })
 
-router.post('/register-admin', function(req, res) {
+router.post('/register-admin', (req, res) => {
     db.insertAdmin([
         req.body.name,
         req.body.email,
         bcrypt.hashSync(req.body.password, 8),
         1
     ],
-    function (err) {
+    (err) => {
         if (err) return res.status(500).send("There was a problem registering the user.")
         db.selectByEmail(req.body.email, (err,user) => {
             if (err) return res.status(500).send("There was a problem getting the user.")
@@ -59,14 +60,14 @@ router.post('/register-admin', function(req, res) {
     }); 
 });
 
-router.post('/register-super-admin', function(req, res) {
+router.post('/register-super-admin', (req, res) => {
     db.insertAdmin([
         req.body.name,
         req.body.email,
         bcrypt.hashSync(req.body.password, 8),
         2
     ],
-    function(err) {
+    (err) => {
         if (err) return res.status(500).send("There was a problem registering the user.")
         db.selectByEmail(req.body.email, (err, user) => {
             if (err) return res.status(500).send("There was a problem getting the user.")
@@ -89,6 +90,30 @@ router.post('/login', (req, res) => {
     })
 })
 
+router.post('/Events', (req, res) => {
+    EventsDB.insertEvent([
+        req.body.name,
+        req.body.description,
+        req.body.type
+    ], //not sure if we are going to be hashing an event here, don't think so
+    (err) => {
+
+            if(err)
+                res.status(500).send("There was a problem registering the event! " + JSON.stringify(err));
+
+            EventsDB.selectByEventName(req.body.name, (err, Event) => {
+
+                if(err){
+                    return res.status(500).send("There was a problem getting the Event with error: "+ JSON.stringify(err));
+                }
+
+                    let token = jwt.sign({id: Event.id}, config.secret, {expiresIn: 86400});
+                    res.status(200).send({ auth: true, token: token, Event: Event });
+
+            });
+    });
+});
+
 app.use(router)
 
 let port = process.env.PORT || 3000;
@@ -103,7 +128,7 @@ let port = process.env.PORT || 3000;
     }
     catch (err){
 
-        console.log("There was a problem starting up the server")
+        console.log("There was a problem starting up the server with error: " + JSON.stringify(err));
     }
 
 
