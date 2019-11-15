@@ -8,6 +8,7 @@
         <li><a href="dashboard">Access Dashboard</a></li>
         <li><a href="admin">Access Admin Dashboard</a></li>
         <li><a href="superadmin">Access Super-Admin Dashboard</a></li>
+        <li><a href="events">Events Dashboard</a></li>
         <li><a v-on:click="handleLogout">Logout</a></li>
       </ul>
     </div>

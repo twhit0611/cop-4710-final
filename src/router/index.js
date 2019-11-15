@@ -6,6 +6,7 @@ import Register from '@/components/Register'
 import UserBoard from '@/components/UserBoard'
 import Admin from '@/components/Admin'
 import SuperAdmin from '@/components/SuperAdmin'
+import Events from '@/components/Events'
 
 Vue.use(Router)
 
@@ -57,6 +58,14 @@ let router = new Router ({
       meta: {
         requiresAuth: true,
         is_super_admin: true
+      }
+    },
+    {
+      path: '/events',
+      name: 'events',
+      component: Events,
+      meta: {
+        guest: true
       }
     }
   ]

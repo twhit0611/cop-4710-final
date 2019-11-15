@@ -90,7 +90,7 @@ router.post('/login', (req, res) => {
     })
 })
 
-router.post('/Events', (req, res) => {
+router.post('/events', (req, res) => {
     EventsDB.insertEvent([
         req.body.name,
         req.body.description,
