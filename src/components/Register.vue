@@ -141,13 +141,14 @@ label {
 input {
     margin: 10px;
     width: 194px;
+    background: white;
     border: 3px solid #e0c600;
 }
 
 select {
     margin: 10px;
-    background: black;
-    color: white;
+    background: white;
+    color: black;
     border: 3px solid #e0c600;
 }
 

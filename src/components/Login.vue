@@ -62,8 +62,8 @@
                             }
                         }
                     })
-                    .catch(function (error) {
-                        console.error(error.response);
+                    .catch( (error) => {
+                        console.log("Trouble authenticating user with error: " + JSON.stringify(error));
                     });
                 }
             },
