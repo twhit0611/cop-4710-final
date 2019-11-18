@@ -9,7 +9,7 @@
                 </template>
                 <v-card>
                     <v-card-title>
-                        <span class="headline">Add School</span>
+                        <span class="headline">Add Events</span>
                     </v-card-title>
                     <v-card-text>
                         <v-container>
