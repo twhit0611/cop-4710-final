@@ -3,7 +3,7 @@
 <v-app>
       <v-content>
     <v-row justify="center">
-            <v-dialog v-model="dialog"  max-width="600px">
+            <v-dialog v-model="school_dialog"  max-width="600px">
                 <template v-slot:activator="{ on }">
                     <v-btn color="primary" dark v-on="on">Add School</v-btn>
                 </template>
@@ -36,8 +36,8 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-                        <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+                        <v-btn color="blue darken-1" text @click="school_dialog = false">Close</v-btn>
+                        <v-btn color="blue darken-1" text @click="school_dialog = false">Save</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -85,7 +85,7 @@
 export default {
         
     data: () => ({
-      dialog: false,
+      school_dialog: false,
     }),
 }
 </script>
