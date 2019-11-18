@@ -1,5 +1,5 @@
 <template>
-<v-app>
+    <v-app>
       <v-content>
         <v-row justify="center">
                 <v-dialog v-model="event_modal" max-width="600px">
@@ -25,15 +25,14 @@
                                     <v-col cols="12" sm="6">
                                         <v-overflow-btn
                                                 class="my-2"
-                                                :items="dropdown_RSO"
+                                                :items="admin_RSO"
                                                 label="RSO"
                                                 item-value="text"
-                                            ></v-overflow-btn>                                    </v-col>
+                                            ></v-overflow-btn>                                    
+                                    </v-col>
                                     <v-col cols="12">
                                         <v-text-field label="Description"  required></v-text-field>
-                                    </v-col>
-                                   
-                                    
+                                    </v-col>                  
                                     <v-col cols="12" sm="6">
                                         <v-menu
                                             ref="menu"
@@ -64,12 +63,12 @@
                                     </v-col>
                                     <v-col cols="12" >
                                         <vuetify-google-autocomplete
-                                               ref="address"
-                                                id="map"
-                                                classname="form-control"
-                                                placeholder="Location"
-                                                v-on:placechanged="getAddressData"
-                                                country="us"
+                                            ref="address"
+                                            id="map"
+                                            classname="form-control"
+                                            placeholder="Address"
+                                            v-on:placechanged="getAddressData"
+                                            country="us"
                                         >
                                         </vuetify-google-autocomplete>
                                     </v-col>
@@ -86,13 +85,18 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="blue darken-1" text @click="event_modal = false">Close</v-btn>
-                            <v-btn color="blue darken-1" text @click="event_modal = false">Save</v-btn>
+                            <v-btn 
+                                color="blue darken-1" 
+                                text 
+                                @click="event_modal = false"
+                                v-on:click="submitEvent"
+                            >Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
                 <v-dialog v-model="dialog1" max-width="600px">
                     <template v-slot:activator="{ on }">
-                        <v-btn color="secondary" dark v-on="on">Create RSO</v-btn>
+                        <v-btn color="secondary" dark v-on="on">Create new RSO</v-btn>
                     </template>
                     <v-card>
                         <v-card-title>
@@ -120,18 +124,41 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="blue darken-1" text @click="dialog1 = false">Close</v-btn>
-                            <v-btn color="blue darken-1" text @click="dialog1 = false">Save</v-btn>
+                            <v-btn 
+                                color="blue darken-1" 
+                                text 
+                                @click="dialog1 = false"
+                                v-on:click="submitRSO">Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
-            </v-row>   
+            </v-row>
+            <v-card
+                class="mx-auto"
+                max-width="300"
+                tile
+            >
+                <v-card-title>
+                    <span class="headline">{{admin_college}}</span>
+                </v-card-title>
+                <v-list disabled>
+                    <v-subheader>Your RSOs</v-subheader>
+                    <v-list-item-group v-model="item" color="primary">
+                        <v-list-item 
+                            v-for="RSO in admin_RSO" 
+                            v-bind:key="RSO"
+                        >
+                            <v-list-item-title v-text="RSO"></v-list-item-title>
+                        </v-list-item>
+                    </v-list-item-group>
+                </v-list>
+            </v-card>
       </v-content>
-</v-app>
+    </v-app>
 </template>
 
 <script>
 export default {
-
     // add snack bar for successfull creation of events?
 
     // to autocomplete the address 
@@ -140,29 +167,40 @@ export default {
         address: ''
         }
     },
-
     // the admin's RSOs
     data: () => ({
-        dropdown_RSO: ['tech club', 'spanish club'],
+        // input the RSO specific to this admin
+        admin_RSO: ['tech club', 'spanish club'],
+        admin_college: "Insert College",
+
+        // stuff to make the calender to work
         date: new Date().toISOString().substr(0, 10),
         menu: false,
         modal: false,
         menu2: false,
+
+        // boolean for the modals
         event_modal: false,
         dialog1: false,
     }),
-
-     mounted() {
+    mounted() {
         this.$refs.address.focus();
-    
-  },
-
+    },
     methods: {
-      getAddressData: function (addressData, placeResultData, id) {
-        // getting the address data 
-        this.address = addressData;
+        // submitting new RSO data to database
+        // submitRSO {
+
+        // }
+
+        // submitting new event data to database
+        // submitEvent {
+
+        // }
+
+        getAddressData: function (addressData, placeResultData, id) {
+            // getting the address data to output to the  
+            this.address = addressData;
         },
     },
-  
 }
 </script>

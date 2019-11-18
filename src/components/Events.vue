@@ -1,10 +1,12 @@
-<template>   
+<template>  
+<v-app>
+      <v-content> 
   <v-card
     class="mx-auto"
-    max-width="1000"
+    max-width="900"
   >
     <v-card-title>
-      <span class="title font-weight-light">Event</span>
+      <span >Event</span>
     </v-card-title>
     <v-card-subtitle>
        <v-row 
@@ -43,11 +45,33 @@
             <v-col >Contact email</v-col> 
       </v-row>  
      </v-card-text>
-    <v-card-actions>
-       
+     <v-divider></v-divider>
+    <v-card-actions class="pa-4">
+      <v-btn
+        v-for="(social, icon) in socials"
+        :key="icon"
+        :color="social.color"
+        fab
+        icon
+        small
+      >
+        <v-icon>{{ social.icon }}</v-icon>
+      </v-btn>
+      <v-spacer></v-spacer>
+      <span>
+        ({{ rating }})
+      </span>
+      <v-rating
+        v-model="rating"
+        background-color="white"
+        color="yellow accent-4"
+        hover
+        size="18"
+      ></v-rating>
     </v-card-actions>
   </v-card>
-
+  </v-content>
+</v-app>
 </template>
 
 <script>
@@ -55,7 +79,21 @@ export default {
    
     data: () => ({
       //
-      rating: 3
+      rating: 3,
+      socials: [
+        {
+          icon: 'fab fa-facebook',
+          color: 'indigo',
+        },
+        {
+          icon: 'fab fa-linkedin',
+          color: 'cyan darken-1',
+        },
+        {
+          icon: 'fab fa-instagram',
+          color: 'red lighten-3',
+        },
+      ],
     }),
 }
 </script>
