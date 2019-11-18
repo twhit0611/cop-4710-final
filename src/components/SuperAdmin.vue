@@ -43,6 +43,41 @@
             </v-dialog>
         </v-row>   
       </v-content>
+      <v-content>
+          <v-card
+                class="mx-auto"
+                max-width="700"
+                outlined
+                elevation="5"
+                tile>
+            <v-card-title>
+                Approval queue
+            </v-card-title>
+            <v-card-text>
+                <v-card
+                class="mx-auto"
+                max-width="650"
+                outlined
+                tile>
+                <v-list-item two-line>
+                    <v-list-item-content>
+                        <v-list-item-title>Event Name </v-list-item-title>
+                        <v-list-item-title>Event type </v-list-item-title>
+                        <v-list-item-text>
+                            Description
+                        </v-list-item-text>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn >Approve</v-btn>
+                        <v-btn >Reject</v-btn>
+                </v-card-actions>
+                </v-card>
+            </v-card-text>
+            
+          </v-card>
+      </v-content>
 </v-app>
 </template>
 

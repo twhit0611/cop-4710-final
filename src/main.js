@@ -10,6 +10,14 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import * as VueGoogleMaps from 'vue2-google-maps'
 
+import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete';
+ 
+Vue.use(VuetifyGoogleAutocomplete, {
+  apiKey: 'Andrew has the key', // Can also be an object. E.g, for Google Maps Premium API, pass `{ client: <YOUR-CLIENT-ID> }`
+  version: '...', // Optional
+  language: '...', // Optional
+});
+
 Vue.use(Vuetify)
 Vue.use(VueGoogleMaps, {
   load: {

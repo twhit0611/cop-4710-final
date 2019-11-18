@@ -14,7 +14,6 @@
                 </v-list-item-content>
             </v-list-item>
             <v-card-actions>
-                <v-btn text>RSVP</v-btn>
                 <v-btn text>Info</v-btn>
             </v-card-actions>
         </v-card>
