@@ -131,6 +131,13 @@ export default {
                 reject: false,
             },
         ],
+
+        name: '',
+        location: '',
+        abbreviation: '',
+        numberofstudents: '',
+        type: '',
+        description: '',
     }),
 
     methods : {
