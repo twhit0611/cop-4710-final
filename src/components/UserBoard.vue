@@ -31,20 +31,20 @@
                     </v-card-title>
                     <v-card-text>
                         <v-container>
-                            <v-row>
-                                <v-col cols="12" sm="6" md="4">
-                                    <v-text-field label="Name*" required></v-text-field>
-                                </v-col>
-                                <v-col cols="12" sm="6" md="4">
-                                    <v-text-field label="School*" required></v-text-field>
-                                </v-col>
+			                    <v-row>
+                              <v-col cols="12" sm="6" md="4">
+                                  <v-text-field id="name" label="Name*" required></v-text-field>
+                              </v-col>
+                              <v-col cols="12" sm="6" md="4">
+                                  <v-text-field id="school" label="School*" required></v-text-field>
+                              </v-col>
+                              <v-col cols="12">
+                                  <v-text-field id="description" label="Description*" required></v-text-field>
+                              </v-col>
                                 <v-col cols="12">
-                                    <v-text-field label="Description*" required></v-text-field>
-                                </v-col>
-                                  <v-col cols="12">
-                                    <v-text-field label="Student emails*" required></v-text-field>
-                                </v-col>
-                            </v-row>
+                                  <v-text-field id="numberofemails" label="Student emails*" required></v-text-field>
+                              </v-col>
+                          </v-row>
                         </v-container>
                         <small>*indicates required field</small>
                     </v-card-text>
