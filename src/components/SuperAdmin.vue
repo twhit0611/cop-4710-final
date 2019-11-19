@@ -28,22 +28,13 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="12" sm="6" md="4">
-                                        <v-text-field id="name" label="Name*" required></v-text-field>
+                                        <v-text-field v-model="name" label="Name*" required></v-text-field>
                                     </v-col>
-                                    <v-col cols="12" sm="6" md="4">
-                                        <v-text-field id="location" label="Location*" required></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6" md="4">
-                                        <v-text-field id="abbreviation" label="Abbreviation*"  required></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6" md="4">
-                                        <v-text-field id ="numberofstudents" label="Number of Student*"  required></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6" md="4">
-                                        <v-text-field id ="type" label="Type*"  required></v-text-field>
+                                     <v-col cols="12" sm="6" md="4">
+                                        <v-text-field v-model="category" label="Category*"  required></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-text-field id= "description" label="Description*" required></v-text-field>
+                                        <v-text-field v-model="description" label="Description*" required></v-text-field>
                                     </v-col>
                                 </v-row>
                             </v-container>
@@ -112,7 +103,6 @@ export default {
                 description: 'blahblajbhaeigwef',
                 approve: false,
                 reject: false, 
-
             },
             {
                 id: 2,
@@ -132,12 +122,9 @@ export default {
             },
         ],
 
-        name: '',
-        location: '',
-        abbreviation: '',
-        numberofstudents: '',
-        type: '',
-        description: '',
+        // name: '',
+        // category: '',
+        // description: '',
     }),
 
     methods : {
@@ -161,13 +148,10 @@ export default {
                             }
                         }
                 
-                axios.post('http://localhost:3000/events', {
-                    name: this.name,
-                    location: this.location,
-                    abbreviation: this.abbreviation,
-                    numberofstudents: this.numberofstudents,
-                    type: this.type,
-                    description: this.description
+                axios.post('http://localhost:3000/event', {
+                    name: this.events.name,
+                    category: this.events.category,
+                    description: this.events.description
                 }, Config)
                 .then(
                     res => {
@@ -184,11 +168,9 @@ export default {
              //want to remain authenticated when deleting events
             if (localStorage.getItem('jwt') != null) {
             axios.delete('http://localhost:3000/events', {
-                name: this.name,
-                location: this.location,
-                abbreviation: this.abbreviation,
-                numberofstudents: this.numberofstudents,
-                description: this.description
+                    name: this.events.name,
+                    category: this.events.category,
+                    description: this.events.description
             })
             .then(
                 res => {
