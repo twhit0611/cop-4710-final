@@ -84,6 +84,32 @@
         
       ></v-rating>
     </v-card-actions>
+    <v-card-text>
+
+      <v-card>
+        <v-card-title>Event Comments</v-card-title>
+        <v-container >
+
+          <v-row v-for="comment in comments" v-bind:key="comment" >
+          <v-chip class="ma-2">
+            {{comment}}
+          </v-chip>
+          </v-row>
+              <v-text-field
+                v-model="message"
+                outlined
+                clearable
+                label="Message"
+                type="text"> 
+                <template v-slot:append-outer>
+                  <v-btn flat color="primary" @click="clickMe">Send</v-btn>
+                </template>
+              </v-text-field>
+        </v-container>
+      </v-card>
+
+
+    </v-card-text>
   </v-card>
   </v-container>
 </v-app>
@@ -109,6 +135,10 @@ export default {
           email: "email"
         },
 
+        // v-model for comments
+        message: '',
+        comments: [],
+
         rating: 3,
         socials: [
           {
@@ -126,6 +156,12 @@ export default {
         ],
       }
     },
+
+    methods: {
+      clickMe() {
+        this.comments.push(this.message)
+      }
+    }
 }
 </script>
 

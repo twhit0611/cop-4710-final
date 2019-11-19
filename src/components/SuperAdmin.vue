@@ -10,15 +10,15 @@
             </v-btn>
             <v-toolbar-title>Super Admin Page</v-toolbar-title>
           </v-app-bar>
-          <v-container fluid>
-        <v-toolbar
-          dark
-          color="blue darken-3"
-          class="mb-1" >
+        <v-container fluid>
+            <v-toolbar
+            dark
+            color="blue darken-3"
+            class="mb-1" >
                 <v-spacer></v-spacer>
                 <v-dialog v-model="school_dialog"  max-width="600px">
                     <template v-slot:activator="{ on }">
-                        <v-btn color="primary" dark v-on="on">Add School</v-btn>
+                        <v-btn color="secondary" dark v-on="on">Add School</v-btn>
                     </template>
                     <v-card>
                         <v-card-title>
@@ -54,34 +54,31 @@
                 </v-dialog>
                 <v-spacer></v-spacer>
             </v-toolbar>  
-          </v-container> 
-        <v-container>
             <v-card
                 class="mx-auto"
                 max-width="700"
                 tile>
-                <v-card-title>
-                    Approval queue
-                </v-card-title>
+                <v-card-title>Approval queue</v-card-title>
                 <v-card-text v-for="event in events" v-bind:key="event">
                     <v-card
                         class="mx-auto"
                         max-width="650"
                         outlined
-                        tile>
+                        tile
+                        v-if="event.approve === false && event.reject === false">
                         <v-list-item two-line>
                             <v-list-item-content>
                                 <v-list-item-title>{{event.name}} </v-list-item-title>
-                                <v-list-item-title>Event type </v-list-item-title>
+                                <v-list-item-subtitle>{{event.category}} </v-list-item-subtitle>
                                 <v-list-item-text>
-                                    Description
+                                    {{event.description}}
                                 </v-list-item-text>
                             </v-list-item-content>
                         </v-list-item>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn >Approve</v-btn>
-                        <v-btn >Reject</v-btn>
+                        <v-btn color="blue darken-1" text @click="event.approve = true">Approve</v-btn>
+                        <v-btn color="blue darken-1" text @click="event.reject = true">Reject</v-btn>
                     </v-card-actions>
                     </v-card>
                 </v-card-text>
@@ -102,15 +99,28 @@ export default {
         events: [
             {
                 id: 1,
-                name: 'BBQ'
+                name: 'BBQ',
+                category: 'tech',
+                description: 'blahblajbhaeigwef',
+                approve: false,
+                reject: false, 
+
             },
             {
                 id: 2,
-                name: 'party'
+                name: 'party',
+                category: 'tech',
+                description: 'blahblajbhaeigwef',
+                approve: false,
+                reject: false,
             },
             {
                 id: 3,
-                name: 'dinner'
+                name: 'dinner',
+                category: 'tech',
+                description: 'blahblajbhaeigwef',
+                approve: false,
+                reject: false,
             },
         ],
     }),

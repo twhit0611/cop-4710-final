@@ -30,18 +30,34 @@
                                         <v-text-field label="Title" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="6">
-                                        <v-text-field label="Event Category" required></v-text-field>
+                                        <v-select
+                                            v-model="cat"
+                                            :items="catergory"
+                                            menu-props="auto"
+                                            label="Select Event Category"
+                                            hide-details
+                                            single-line
+                                        ></v-select> 
                                     </v-col>
                                      <v-col cols="12" sm="6">
-                                        <v-text-field label="Type"  required></v-text-field>
+                                        <v-select
+                                            v-model="type"
+                                            :items="event_type"
+                                            menu-props="auto"
+                                            label="Select Event Type"
+                                            hide-details
+                                            single-line
+                                        ></v-select> 
                                     </v-col>
                                     <v-col cols="12" sm="6">
-                                        <v-overflow-btn
-                                                class="my-2"
-                                                :items="admin_RSO"
-                                                label="RSO"
-                                                item-value="text"
-                                            ></v-overflow-btn>                                    
+                                        <v-select
+                                            v-model="rso"
+                                            :items="admin_RSO"
+                                            menu-props="auto"
+                                            label="Select RSO"
+                                            hide-details
+                                            single-line
+                                        ></v-select> 
                                     </v-col>
                                     <v-col cols="12">
                                         <v-text-field label="Description"  required></v-text-field>
@@ -185,15 +201,24 @@ export default {
     },
     // the admin's RSOs
     data: () => ({
-        // input the RSO specific to this admin
-        admin_RSO: ['tech club', 'spanish club'],
-        admin_college: "Insert College",
 
         // stuff to make the calender to work
         date: new Date().toISOString().substr(0, 10),
         menu: false,
         modal: false,
         menu2: false,
+
+        // input the RSO specific to this admin
+        admin_RSO: ['tech club', 'spanish club'],
+        admin_college: "Insert College",
+        catergory: [ 'Social', 'Fundrasing', 'Academic', 'Volunteering', 'Carrer'],
+        event_type: ['Public', 'Private', 'RSO Event' ],
+
+        // v-model for dropdown menus
+        rso:'',
+        cat: '',
+        type: '',
+
 
         // boolean for the modals
         event_modal: false,
