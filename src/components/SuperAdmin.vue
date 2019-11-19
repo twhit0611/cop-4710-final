@@ -1,8 +1,21 @@
 
 <template>
     <v-app>
-        <v-content>
-            <v-row justify="center">
+        <v-app-bar
+          app
+          color="blue darken-3"
+          dark>
+            <v-btn icon class="hidden-xs-only" :to="{name: 'HomePage'}">
+                <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+            <v-toolbar-title>Super Admin Page</v-toolbar-title>
+          </v-app-bar>
+          <v-container fluid>
+        <v-toolbar
+          dark
+          color="blue darken-3"
+          class="mb-1" >
+                <v-spacer></v-spacer>
                 <v-dialog v-model="school_dialog"  max-width="600px">
                     <template v-slot:activator="{ on }">
                         <v-btn color="primary" dark v-on="on">Add School</v-btn>
@@ -39,9 +52,10 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
-            </v-row>   
-        </v-content>
-        <v-content>
+                <v-spacer></v-spacer>
+            </v-toolbar>  
+          </v-container> 
+        <v-container>
             <v-card
                 class="mx-auto"
                 max-width="700"
@@ -72,7 +86,7 @@
                     </v-card>
                 </v-card-text>
             </v-card>
-        </v-content>
+        </v-container>
     </v-app>
 </template>
 

@@ -1,5 +1,54 @@
 <template>
-    <div>
+<v-app >
+    <v-content>
+      <v-container
+        fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
+            <v-card class="elevation-12">
+              <v-toolbar
+                color="primary"
+                dark >
+                 <v-btn icon class="hidden-xs-only" :to="{name: 'HomePage'}">
+                    <v-icon>mdi-arrow-left</v-icon>
+                </v-btn>
+                <v-toolbar-title>Login</v-toolbar-title>
+                <v-spacer />   
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    id="email"
+                    label="Login"
+                    v-modal="email"
+                    name="login"
+                    prepend-icon="person"
+                    type="email"
+                    autofocus
+                    required/>
+                  <v-text-field
+                    id="password"
+                    v-modal="password"
+                    label="Password"
+                    name="password"
+                    prepend-icon="lock"
+                    type="password"
+                    required />
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn color="primary" :to="{name: 'register'}">Register</v-btn>
+                <v-btn color="primary" @click="handleSubmit">Login</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
+  </v-app>
+
+    <!-- <div>
         <img src="@/assets/logo.png">
         <h4>Login</h4>
         <form>
@@ -21,7 +70,7 @@
             <h4>Don't have an account?</h4>
             <button type="submit" v-on:click="goToRegister">Register</button>
         </div>
-    </div>    
+    </div>     -->
 </template>
 
 <script>
@@ -75,7 +124,7 @@
 </script>
 
 <style>
-img {
+/* img {
   max-width: 25%;
   max-height: 25%;
   width: auto;
@@ -131,5 +180,5 @@ button {
 
 body {
   background-image: url("https://knightnews.com/wp-content/uploads/2017/10/14712758_10157511833500527_1554147307089290995_o-1.jpg");
-}
+} */
 </style>

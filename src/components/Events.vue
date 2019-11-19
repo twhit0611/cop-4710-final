@@ -1,51 +1,65 @@
 <template>  
 <v-app>
-      <v-content> 
+   <v-app-bar
+          app
+          color="blue darken-3"
+          dark>
+          <v-btn icon class="hidden-xs-only" :to="{name: 'dashboard'}">
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+        <v-toolbar-title>Event Page</v-toolbar-title>
+          </v-app-bar>
+ <v-container fluid>
   <v-card
     class="mx-auto"
-    max-width="900"
-  >
+    max-width="900">
     <v-card-title>
-      <span >Event</span>
+      <span >{{event.name}}</span>
     </v-card-title>
     <v-card-subtitle>
        <v-row 
        align="left">
-            <v-col >School</v-col>
-            <v-col >Event Category</v-col> 
-            <v-col >Event Type</v-col> 
+            <v-col>{{event.school}}</v-col>
+            <v-col>{{event.rso}}</v-col>
+            <v-col>{{event.category}}</v-col> 
+            <v-col>{{event.type}}</v-col> 
+            
         </v-row> 
     </v-card-subtitle>
 
     <v-card-text >
-      <p>event description</p>
+      <v-divider></v-divider>
+      <v-col>{{event.description}}</v-col>
+      <v-divider></v-divider>
       <v-row>
-        <v-col >Date</v-col>
-            <v-col >Time</v-col> 
-            <v-col >Address</v-col> 
-                     <GmapMap
-      :center="{lat:36.964, lng: -122.015}"
-      :zoom="7"
-      map-type-id="roadmap"
-      style="width: 500px; height: 300px"
-      justify ="center"
-    >
-      <GmapMarker 
-        :key="index"
-        v-for="(m, index) in markers"
-        :position="m.position"
-        :clickable="true"
-        :draggable="true"
-        @click="center=m.position"
-      />
-    </GmapMap>
+        <v-col >{{event.date}}</v-col>
+        <v-col >{{event.time}}</v-col> 
+        <v-col >{{event.address}}</v-col> 
       </v-row> 
+      <v-divider></v-divider>
+      <v-row justify="center">
+        <GmapMap
+          :center="{lat:36.964, lng: -122.015}"
+          :zoom="7"
+          map-type-id="roadmap"
+          style="width: 500px; height: 300px"
+          justify ="center"
+        >
+          <GmapMarker 
+            :position="{lat:36.964, lng: -122.015}"
+            :clickable="true"
+            :draggable="true"
+            @click="center=m.position"
+          />
+        </GmapMap>
+      </v-row>
+      <v-divider></v-divider>
       <v-row>
-        <v-col >Contact Phone number</v-col>
-            <v-col >Contact email</v-col> 
+        <v-col >{{event.phone}}</v-col>
+        <v-col >{{event.email}}</v-col> 
       </v-row>  
-     </v-card-text>
-     <v-divider></v-divider>
+    </v-card-text>
+    <v-divider></v-divider>
     <v-card-actions class="pa-4">
       <v-btn
         v-for="(social, icon) in socials"
@@ -53,8 +67,8 @@
         :color="social.color"
         fab
         icon
-        small
-      >
+        small 
+      > 
         <v-icon>{{ social.icon }}</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
@@ -67,34 +81,51 @@
         color="yellow accent-4"
         hover
         size="18"
+        
       ></v-rating>
     </v-card-actions>
   </v-card>
-  </v-content>
+  </v-container>
 </v-app>
 </template>
 
 <script>
+
 export default {
-   
-    data: () => ({
-      //
-      rating: 3,
-      socials: [
-        {
-          icon: 'fab fa-facebook',
-          color: 'indigo',
+    data(){
+      return {
+        // event data
+        event: {
+          name: 'BBQ',
+          school: "UCF",
+          rso: "Tech Club",
+          category: "Tech",
+          type: "Public",
+          description: " we gonna party ",
+          date: "11-19",
+          time: "11:30",
+          address: "4000 Central Florida Blvd, Orlando, FL 32816", 
+          phone: "407 456-9504",
+          email: "email"
         },
-        {
-          icon: 'fab fa-linkedin',
-          color: 'cyan darken-1',
-        },
-        {
-          icon: 'fab fa-instagram',
-          color: 'red lighten-3',
-        },
-      ],
-    }),
+
+        rating: 3,
+        socials: [
+          {
+            icon: 'fab fa-facebook',
+            color: 'indigo',
+          },
+                  {
+            icon: 'fab fa-twitter',
+            color: 'cyan',
+          },
+          {
+            icon: 'fab fa-instagram',
+            color: 'red lighten-3',
+          },
+        ],
+      }
+    },
 }
 </script>
 
