@@ -1,12 +1,13 @@
 "use strict";
 const express = require('express')
 const DB = require('./db')
+const EventDB = require('./db')
 const config = require('./config')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
-const EventsDB = require('./Schemas/Events');
 
+const eventdb = new EventDB("sqlitedb")
 const db = new DB("sqlitedb")
 const app = express()
 const router = express.Router()
@@ -25,11 +26,11 @@ const allowCrossDomain = (req, res, next) => {
 app.use(allowCrossDomain)
 
 router.post('/register', (req, res) => {
-    db.insert([
+    db.insertUser([
         req.body.name,
         req.body.email,
         bcrypt.hashSync(req.body.password, 8),
-        0
+        req.body.is_admin
     ],
     (err) => {
         if (err) return res.status(500).send("There was a problem registering the user.")
@@ -38,42 +39,6 @@ router.post('/register', (req, res) => {
             let token = jwt.sign({ id: user.id }, config.secret, {expiresIn: 86400 // expires in 24 hours
             })
             res.status(200).send({ auth: true, token: token, user: user })
-        })
-    })
-})
-
-router.post('/register-admin', (req, res) => {
-    db.insertAdmin([
-        req.body.name,
-        req.body.email,
-        bcrypt.hashSync(req.body.password, 8),
-        1
-    ],
-    (err) => {
-        if (err) return res.status(500).send("There was a problem registering the user.")
-        db.selectByEmail(req.body.email, (err,user) => {
-            if (err) return res.status(500).send("There was a problem getting the user.")
-            let token = jwt.sign({ id: user.id }, config.secret, { expiresIn: 86400 // expires in 24 hours
-            });
-            res.status(200).send({ auth: true, token: token, user: user });
-        }); 
-    }); 
-});
-
-router.post('/register-super-admin', (req, res) => {
-    db.insertAdmin([
-        req.body.name,
-        req.body.email,
-        bcrypt.hashSync(req.body.password, 8),
-        2
-    ],
-    (err) => {
-        if (err) return res.status(500).send("There was a problem registering the user.")
-        db.selectByEmail(req.body.email, (err, user) => {
-            if (err) return res.status(500).send("There was a problem getting the user.")
-            let token = jwt.sign({id: user.id}, config.secret, {expiresIn: 86400
-            })
-            res.status(200).send({auth: true, token: token, user: user})
         })
     })
 })
@@ -119,15 +84,12 @@ app.use(router)
 let port = process.env.PORT || 3000;
 
 (async () => {
-
     try {
-
-        let server = await app.listen(port)
-        console.log('Express server listening on port ' + port)
-
+        let server = await app.listen(port, function() {
+            console.log('Express server listening on port ' + port)
+        })
     }
     catch (err){
-
         console.log("There was a problem starting up the server with error: " + JSON.stringify(err));
     }
 

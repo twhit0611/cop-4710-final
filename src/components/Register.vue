@@ -19,7 +19,7 @@
                   <v-text-field
                     id="email"
                     label="Email"
-                    v-modal="email"
+                    v-model="email"
                     name="login"
                     prepend-icon="person"
                     type="email"
@@ -27,12 +27,20 @@
                     required/>
                   <v-text-field
                     id="password"
-                    v-modal="password"
+                    v-model="password"
                     label="Password"
                     name="password"
                     prepend-icon="lock"
                     type="password"
                     required />
+                <v-text-field
+                    id="password_confirmation"
+                    v-model="password_confirmation"
+                    label="Password Confirmation"
+                    name="password_confirmation"
+                    prepend-icon="lock"
+                    type="password"
+                    required/>
                 </v-form>
                <v-select
                     v-model="account"
@@ -107,12 +115,12 @@
         data(){
             return {
                 dropdown: ['Student', 'Admin', 'SuperAdmin' ],
-                name : "",
-                email : "",
-                password : "",
-                password_confirmation : "",
-                // is_admin : null
+                name: '',
+                email: '',
+                password: '',
+                password_confirmation: '',
                 account: '',
+                is_admin: 0
             }
         },
         methods : {
@@ -120,11 +128,10 @@
                 e.preventDefault()
                 if (this.password === this.password_confirmation && this.password.length > 0)
                 {
-                    let url = "http://localhost:3000/register"
-                    // if(this.is_admin == 1) url = "http://localhost:3000/register-admin"
-                    // else if(this.is_admin == 2) url = "http://localhost:3000/register-super-admin"
-                    if(this.is_admin == 'Admin') url = "http://localhost:3000/register-admin"
-                    else if(this.is_admin == 'Super Admin') url = "http://localhost:3000/register-super-admin"
+                    let url = 'http://localhost:3000/register'
+                    if (this.account == 'Student') this.is_admin = 0
+                    else if (this.account == 'Admin') this.is_admin = 1
+                    else if (this.account == 'SuperAdmin') this.is_admin = 2
                     this.$http.post(url, {
                         name: this.name,
                         email: this.email,
@@ -150,7 +157,7 @@
                 } 
                 else {
                     this.password = ""
-                    this.passwordConfirm = ""
+                    this.password_confirmation = ""
 
                     return alert("Passwords do not match or no input.")
                 }

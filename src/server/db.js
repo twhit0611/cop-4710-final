@@ -5,19 +5,19 @@ const sqlite3 = require('sqlite3').verbose();
 //and create individual tables, thus creating indivi. schemas such as above
 
 class DB {
-
     constructor(file) {
-        this.DB = new sqlite3.Database(file);
-        this.createTable();
+        this.DB = new sqlite3.Database(file)
+        this.EventDB = new sqlite3.Database(file)
+        this.createTable()
+        this.createEventTable()
+        //this.createEventTable()
     }
 
     //asynchronous methods
-    runAysnc(sql) {
-
+    runAsync(sql) {
         var that = this;
-    
         return new Promise( (resolve, reject) => {
-            that.run(sql, (err, row) => {
+            that.get(sql, (err, row) => {
 
                 if (err)
                     reject(err);
@@ -27,11 +27,8 @@ class DB {
         });
     
     };
-
-    getAysnc(sql) {
-
+    getAsync(sql) {
         var that = this;
-    
         return new Promise( (resolve, reject) => {
             that.get(sql, (err, row) => {
                 if (err)
@@ -43,26 +40,28 @@ class DB {
     
     };
 
-
     async createTable() {
         try {
-
-        const sql = `
-            CREATE TABLE IF NOT EXISTS user (
-                id integer PRIMARY KEY, 
-                name text, 
-                email text UNIQUE, 
-                user_pass text,
-                admin_type integer)`
-                
-        return await this.DB.runAysnc(sql);
-
+            const sql = `
+                CREATE TABLE IF NOT EXISTS user ( 
+                    id integer PRIMARY KEY,
+                    name text,
+                    email text UNIQUE,
+                    user_pass text,
+                    is_admin integer)`
+            return await this.DB.runAsync(sql);
         }
         catch(err) {
             console.log("Could not start database with error: "+ JSON.stringify(err));
-
         }
+    }
 
+    insertUser(user, callback){
+        return this.DB.run(
+            'INSERT INTO user (name,email,user_pass,is_admin) VALUES (?,?,?,?)',
+            user, (err) => {
+                callback(err)
+            })
     }
 
     selectByEmail(email, callback) {
@@ -73,75 +72,44 @@ class DB {
             })
     }
 
-    insertAdmin(user, callback) {
-        return this.DB.run(
-            'INSERT INTO user (name,email,user_pass,is_admin) VALUES (?,?,?,?)',
-            user, (err) => {
-                callback(err)
-            })
-    }
-
     selectAll(callback) {
         return this.DB.all(`SELECT * FROM user`, (err,rows) => {
             
             callback(err,rows)
         })
     }
-
-    insert(user, callback){
-        return this.DB.run(
-            'INSERT INTO user (name,email,user_pass,admin_type) VALUES (?,?,?,?)',
-            user, (err) => {
-                callback(err)
-            })
+async createEventTable() 
+    {           
+        try {
+            const sql = ' \
+                    CREATE TABLE IF NOT EXISTS event ( \
+                    Eventid integer PRIMARY KEY, \
+                    name text, \
+                    description text, \
+                    category text, \
+                    time integer, \
+                    date integer, \
+                    is_Admin integer, \
+                    count_email integer, \
+                    count_phone integer)'
+            return await this.EventDB.runAsync(sql)
+        }
+        catch(err) {
+            return console.error(err);
+        }
     }
 
-    async createEvents() 
-    {   
-    
-    try {
-        var createEventstable = (
-                `CREATE TABLE IF NOT EXISTS Events(
-                Eventid integer PRIMARY KEY, 
-                name text,
-                decription text,
-                type text,
-                category text,
-                time, integer,
-                date integer,
-                is_Admin integer,
-                count_email integer,
-                count_phone integer
-                )`
-    );
-
-    return await this.DB.runAysnc(createEventstable);
-    }
-    catch(err){
-        return console.error(err);
-    }
-
-}
-
-    insertEvents(Event, callback){
-        return this.DB.run(`INSERT INTO Events (name,description,type,category,is_Admin) VALUES (?,?,?,?,?)`, [Event], (err) => {
+    insertEvents(Events, callback){
+        return this.DB.run(`INSERT INTO event (name,category,description,time,date,count_email,count_phone) VALUES (?,?,?,?,?,?,?)`, [Event], (err) => {
             callback(err);
         }); 
     }
 
     selectByEventName(name, callback){
-        return this.DB.get(`SELECT * FROM Events WHERE name = ?`, [name], (err, row) => {
+        return this.EventsDB.get(`SELECT * FROM event WHERE name = ?`, [name], (err, row) => {
             callback(err, row);
         });
     };
-
-    deleteEvent(name, callback){
-
-        return this.DB.run(`DELETE * FROM Events WHERE name = ?`, [name], (err, row) => {
-            callback(err, row);
-        });
-
-    }
 
     async createCommentstable(){
 
@@ -154,21 +122,12 @@ class DB {
                     date integer,
                     is_Admin integer
                 )`
-            );
-
-            return await this.DB.runAysnc(createComments);
-
+            )
+            return await this.CommentsDB.runAysnc(createComments)
         }
         catch(err) {
-
-            return console.error(err);
+            return console.error(err)
         }
-    }
-
-    deleteComments(){
-
-
-        
     }
 
     async createRSOevent(){
@@ -187,9 +146,9 @@ class DB {
             count_email integer,
             count_phone integer
             )
-            `);
+            `)
     
-            return await this.DB.runAysnc(createRSO);
+            return await this.EventsDB.runAysnc(createRSO);
     
         }
     
@@ -201,7 +160,7 @@ class DB {
     
     insertintoRSO(RSO, callback){
             var insertRSOqueue = (
-                ` 'INSERT INTO Events (name,description,type,category,is_Admin) VALUES (?,?,?,?,?)' `
+                ` 'INSERT INTO event (name,description,type,category,is_Admin) VALUES (?,?,?,?,?)' `
             );
                 
             return this.EventsDB.run(insertRSOqueue, [RSO], (err) => {
@@ -215,7 +174,7 @@ class DB {
             ` SELECT * FROM RSO WHERE name = ?`
         );
     
-        return this.DB.get(selectRSOquery, [name], (err, row) => {
+        return this.EventsDB.get(selectRSOquery, [name], (err, row) => {
     
             callback(err, row);
     
