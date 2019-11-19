@@ -20,7 +20,7 @@
                   <v-text-field
                     id="email"
                     label="Login"
-                    v-modal="email"
+                    v-model="email"
                     name="login"
                     prepend-icon="person"
                     type="email"
@@ -28,7 +28,7 @@
                     required/>
                   <v-text-field
                     id="password"
-                    v-modal="password"
+                    v-model="password"
                     label="Password"
                     name="password"
                     prepend-icon="lock"

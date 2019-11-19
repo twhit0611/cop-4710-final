@@ -1,13 +1,11 @@
 "use strict";
 const express = require('express')
 const DB = require('./db')
-const EventDB = require('./db')
 const config = require('./config')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 
-const eventdb = new EventDB("sqlitedb")
 const db = new DB("sqlitedb")
 const app = express()
 const router = express.Router()
@@ -54,30 +52,6 @@ router.post('/login', (req, res) => {
         res.status(200).send({ auth: true, token: token, user: user })
     })
 })
-
-router.post('/events', (req, res) => {
-    EventsDB.insertEvent([
-        req.body.name,
-        req.body.description,
-        req.body.type
-    ], //not sure if we are going to be hashing an event here, don't think so
-    (err) => {
-
-            if(err)
-                res.status(500).send("There was a problem registering the event! " + JSON.stringify(err));
-
-            EventsDB.selectByEventName(req.body.name, (err, Event) => {
-
-                if(err){
-                    return res.status(500).send("There was a problem getting the Event with error: "+ JSON.stringify(err));
-                }
-
-                    let token = jwt.sign({id: Event.id}, config.secret, {expiresIn: 86400});
-                    res.status(200).send({ auth: true, token: token, Event: Event });
-
-            });
-    });
-});
 
 app.use(router)
 
