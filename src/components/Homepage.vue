@@ -1,5 +1,26 @@
 <template>
-  <div class="main">
+  <v-app>
+    <v-app-bar
+          app
+          fluid
+          color="blue darken-3"
+          dark>
+    
+          <v-toolbar-title>Homepage</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn text  :to="{name: 'register'}">Register</v-btn>
+          <v-btn text  :to="{name: 'login'}">Login</v-btn>
+          <v-btn text  v-on:click="handleLogout">Logout</v-btn>
+          </v-app-bar>
+    <v-container fluid> 
+      <p>Welcome to CampusEvents</p>
+      <v-btn color="secondary" :to="{name: 'dashboard'}">To Dashboard</v-btn>
+      <v-btn color="secondary" :to="{name: 'admin'}">To Admin Dashboard</v-btn>
+      <v-btn color="secondary" :to="{name: 'superadmin'}">To Super-Admin Dashboard</v-btn>
+    </v-container>
+  </v-app>
+
+  <!-- <div class="main">
     <notifications group="alerts" />
     <div class="routing">
       <ul>
@@ -28,7 +49,7 @@
         <li>Universities may register their campus</li>
       </ol>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -67,7 +88,7 @@ export default {
 </script>
 
 <style>
-  h1 {
+  /* h1 {
     font-weight: normal;
     background: black;
     max-width: 400px;
@@ -141,6 +162,6 @@ export default {
 
   body {
     background-image: url("https://knightnews.com/wp-content/uploads/2017/10/14712758_10157511833500527_1554147307089290995_o-1.jpg");
-  }
+  } */
 
 </style>

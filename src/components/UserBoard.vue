@@ -1,7 +1,20 @@
 <template>
     <v-app>
-      <v-content>
-        <v-row justify="center">
+        <v-app-bar
+          app
+          color="blue darken-3"
+          dark>
+          <v-btn icon class="hidden-xs-only" :to="{name: 'HomePage'}">
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+          <v-toolbar-title>Event Feed</v-toolbar-title>
+          </v-app-bar>
+          <v-container fluid>
+        <v-toolbar
+          dark
+          color="blue darken-3"
+          class="mb-1">
+
           <v-dialog v-model="dialog1" max-width="600px">
               <template v-slot:activator="{ on }">
                   <v-btn color="secondary" dark v-on="on">Create new RSO</v-btn>
@@ -36,9 +49,10 @@
                   </v-card-actions>
               </v-card>
           </v-dialog>          
+          <v-spacer></v-spacer>
           <v-dialog v-model="join_modal" max-width="600px">
             <template v-slot:activator="{ on }">
-                <v-btn color="primary" dark v-on="on">Join RSO</v-btn>
+                <v-btn color="secondary" dark v-on="on">Join RSO</v-btn>
             </template>
             <v-card>
                 <v-card-title>
@@ -55,8 +69,31 @@
                   <v-btn color="blue darken-1" text @click="join_modal = false">Save</v-btn>
                 </v-card-actions>
             </v-card>
-          </v-dialog>                                
-        </v-row>
+          </v-dialog>  
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            clearable
+            flat
+            solo-inverted
+            hide-details
+            prepend-inner-icon="search"
+            label="Search"
+          ></v-text-field>
+          <v-spacer></v-spacer>
+          <v-select
+              v-model="sortBy"
+              flat
+              solo-inverted
+              hide-details
+              :items="keys"
+              prepend-inner-icon="search"
+              label="Sort by"
+            ></v-select>
+          
+        </v-toolbar>
+          </v-container>
+
         <v-container v-for="event in events" v-bind:key="event.id">
             <v-card
                 class="mx-auto"
@@ -79,7 +116,6 @@
                 </v-card-actions>
             </v-card>
         </v-container>
-      </v-content>
     </v-app>
 </template>
 

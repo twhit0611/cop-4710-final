@@ -1,10 +1,18 @@
 <template>  
 <v-app>
-      <v-content> 
+   <v-app-bar
+          app
+          color="blue darken-3"
+          dark>
+          <v-btn icon class="hidden-xs-only" :to="{name: 'dashboard'}">
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+        <v-toolbar-title>Event Page</v-toolbar-title>
+          </v-app-bar>
+ <v-container fluid>
   <v-card
     class="mx-auto"
-    max-width="900"
-  >
+    max-width="900">
     <v-card-title>
       <span >{{event.name}}</span>
     </v-card-title>
@@ -77,7 +85,7 @@
       ></v-rating>
     </v-card-actions>
   </v-card>
-  </v-content>
+  </v-container>
 </v-app>
 </template>
 

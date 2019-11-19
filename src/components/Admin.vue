@@ -1,10 +1,23 @@
 <template>
     <v-app>
-      <v-content>
-        <v-row justify="center">
+        <v-app-bar
+          app
+          color="blue darken-3"
+          dark>
+          <v-btn icon class="hidden-xs-only" :to="{name: 'HomePage'}">
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+        <v-toolbar-title>Admin Page</v-toolbar-title>
+          </v-app-bar>
+      <v-container fluid>
+        <v-toolbar
+          dark
+          color="blue darken-3"
+          class="mb-1">
+                <v-spacer></v-spacer>
                 <v-dialog v-model="event_modal" max-width="600px">
                     <template v-slot:activator="{ on }">
-                        <v-btn color="primary" dark v-on="on">Create Event</v-btn>
+                        <v-btn color="secondary" dark v-on="on">Create Event</v-btn>
                     </template>
                     <v-card>
                         <v-card-title>
@@ -94,6 +107,7 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
+                <v-spacer></v-spacer>
                 <v-dialog v-model="dialog1" max-width="600px">
                     <template v-slot:activator="{ on }">
                         <v-btn color="secondary" dark v-on="on">Create new RSO</v-btn>
@@ -132,12 +146,14 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
-            </v-row>
+                <v-spacer></v-spacer>
+        </v-toolbar>
+      </v-container>
+            <v-container>
             <v-card
                 class="mx-auto"
                 max-width="300"
-                tile
-            >
+                tile >
                 <v-card-title>
                     <span class="headline">{{admin_college}}</span>
                 </v-card-title>
@@ -153,7 +169,7 @@
                     </v-list-item-group>
                 </v-list>
             </v-card>
-      </v-content>
+        </v-container>
     </v-app>
 </template>
 

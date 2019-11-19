@@ -1,5 +1,62 @@
 <template>
-    <div class="main">
+<v-app >
+    <v-content>
+      <v-container fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
+            <v-card class="elevation-12">
+              <v-toolbar
+                color="primary"
+                dark >
+                <v-btn icon class="hidden-xs-only" :to="{name: 'HomePage'}">
+                    <v-icon>mdi-arrow-left</v-icon>
+                </v-btn>
+                <v-toolbar-title>Register</v-toolbar-title>
+                <v-spacer />   
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    id="email"
+                    label="Email"
+                    v-modal="email"
+                    name="login"
+                    prepend-icon="person"
+                    type="email"
+                    autofocus
+                    required/>
+                  <v-text-field
+                    id="password"
+                    v-modal="password"
+                    label="Password"
+                    name="password"
+                    prepend-icon="lock"
+                    type="password"
+                    required />
+                </v-form>
+               <v-select
+                    v-model="account"
+                    :items="dropdown"
+                    menu-props="auto"
+                    label="Select Account Type"
+                    hide-details
+                    prepend-icon="info"
+                    single-line
+                ></v-select>  
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn color="primary" :to="{name: 'login'}">Login</v-btn>
+                <v-btn color="primary" @click="handleSubmit">Register</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
+  </v-app>
+
+    <!-- <div class="main">
         <img src="@/assets/registration.png" class="titleImage">
         <h4>Register</h4>
         <form class="registerForm">
@@ -41,7 +98,7 @@
             <h4>Already have an account?</h4>
             <button type="submit" v-on:click="goToLogin" class="loginButton">Go to login</button>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script>
@@ -49,11 +106,13 @@
         props : ["nextUrl"],
         data(){
             return {
+                dropdown: ['Student', 'Admin', 'SuperAdmin' ],
                 name : "",
                 email : "",
                 password : "",
                 password_confirmation : "",
-                is_admin : null
+                // is_admin : null
+                account: '',
             }
         },
         methods : {
@@ -62,8 +121,10 @@
                 if (this.password === this.password_confirmation && this.password.length > 0)
                 {
                     let url = "http://localhost:3000/register"
-                    if(this.is_admin == 1) url = "http://localhost:3000/register-admin"
-                    else if(this.is_admin == 2) url = "http://localhost:3000/register-super-admin"
+                    // if(this.is_admin == 1) url = "http://localhost:3000/register-admin"
+                    // else if(this.is_admin == 2) url = "http://localhost:3000/register-super-admin"
+                    if(this.is_admin == 'Admin') url = "http://localhost:3000/register-admin"
+                    else if(this.is_admin == 'Super Admin') url = "http://localhost:3000/register-super-admin"
                     this.$http.post(url, {
                         name: this.name,
                         email: this.email,
@@ -102,7 +163,7 @@
 </script>
 
 <style>
-img.titleImage {
+/* img.titleImage {
     display:block;
     max-width: 25%;
     max-height: 25%;
@@ -164,7 +225,7 @@ button {
 
 body {
     background-image: url("https://knightnews.com/wp-content/uploads/2017/10/14712758_10157511833500527_1554147307089290995_o-1.jpg");
-}
+} */
 
 </style>
 
