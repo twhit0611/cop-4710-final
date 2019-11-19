@@ -70,7 +70,7 @@
                             <v-col >School</v-col>
                           </v-row>
                         </div>
-                        <v-list-item-title class="headline mb-1">Event name </v-list-item-title>
+                        <v-list-item-title class="headline mb-1">{{event.name}} </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
                 <v-card-actions>
@@ -97,17 +97,17 @@ export default {
     events: [
       {
         id: 1,
-        title: 'BBQ'
+        name: 'BBQ'
       },
       {
         id: 2,
-        title: 'party'
+        name: 'party'
       },
       {
         id: 3,
-        title: 'dinner'
+        name: 'dinner'
       },
     ],
-  })
+  }),
 }
 </script>

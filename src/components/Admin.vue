@@ -199,6 +199,10 @@ export default {
 
         getAddressData: function (addressData, placeResultData, id) {
             // getting the address data to output to the  
+            // returns:
+            //       street_number, route, locality, 
+            //       administrative_area_level_1, country, 
+            //       postal_code, latitude, longitude
             this.address = addressData;
         },
     },
