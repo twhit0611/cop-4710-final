@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 
-const db = new DB("sqlitedb")
+const db = new DB('sqlitedb')
 const app = express()
 const router = express.Router()
  
@@ -23,6 +23,7 @@ const allowCrossDomain = (req, res, next) => {
 
 app.use(allowCrossDomain)
 
+// register a user
 router.post('/register', (req, res) => {
     db.insertUser([
         req.body.name,
@@ -41,6 +42,7 @@ router.post('/register', (req, res) => {
     })
 })
 
+// login a user
 router.post('/login', (req, res) => {
     db.selectByEmail(req.body.email, (err, user) => {
         if (err) return res.status(500).send('Error on the server.')
@@ -50,6 +52,23 @@ router.post('/login', (req, res) => {
         let token = jwt.sign({ id: user.id }, config.secret, { expiresIn: 86400 // expires in 24 hours
         })
         res.status(200).send({ auth: true, token: token, user: user })
+    })
+})
+
+// register an event
+router.post('/event', (req, res) => {
+    db.insertEvent([
+        req.body.name,
+        req.body.category,
+        req.body.description,
+        req.body.time,
+        req.body.date,
+        req.body.RSO_name,
+        req.body.contact_email,
+        req.body.contact_phone
+    ],
+    (err) => {
+        if (err) return res.status(500).send("There was a problem creating the event.")
     })
 })
 
