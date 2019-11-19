@@ -17,7 +17,7 @@ class DB {
         var that = this;
     
         return new Promise( (resolve, reject) => {
-            that.get(sql, (err, row) => {
+            that.run(sql, (err, row) => {
 
                 if (err)
                     reject(err);
@@ -115,7 +115,7 @@ class DB {
                 )`
     );
 
-    return await this.EventsDB.runAysnc(createEventstable);
+    return await this.DB.runAysnc(createEventstable);
     }
     catch(err){
         return console.error(err);
@@ -130,10 +130,18 @@ class DB {
     }
 
     selectByEventName(name, callback){
-        return this.EventsDB.get(`SELECT * FROM Events WHERE name = ?`, [name], (err, row) => {
+        return this.DB.get(`SELECT * FROM Events WHERE name = ?`, [name], (err, row) => {
             callback(err, row);
         });
     };
+
+    deleteEvent(name, callback){
+
+        return this.DB.run(`DELETE * FROM Events WHERE name = ?`, [name], (err, row) => {
+            callback(err, row);
+        });
+
+    }
 
     async createCommentstable(){
 
@@ -148,13 +156,19 @@ class DB {
                 )`
             );
 
-            return await this.CommentsDB.runAysnc(createComments);
+            return await this.DB.runAysnc(createComments);
 
         }
         catch(err) {
 
             return console.error(err);
         }
+    }
+
+    deleteComments(){
+
+
+        
     }
 
     async createRSOevent(){
@@ -175,7 +189,7 @@ class DB {
             )
             `);
     
-            return await this.EventsDB.runAysnc(createRSO);
+            return await this.DB.runAysnc(createRSO);
     
         }
     
@@ -201,7 +215,7 @@ class DB {
             ` SELECT * FROM RSO WHERE name = ?`
         );
     
-        return this.EventsDB.get(selectRSOquery, [name], (err, row) => {
+        return this.DB.get(selectRSOquery, [name], (err, row) => {
     
             callback(err, row);
     
