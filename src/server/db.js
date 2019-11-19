@@ -56,12 +56,43 @@ class DB {
         }
     }
 
+    async createEventTable() 
+    {           
+        try {
+            const sql = ' \
+                    CREATE TABLE IF NOT EXISTS event ( \
+                    Eventid integer PRIMARY KEY, \
+                    name text, \
+                    category text, \
+                    description text, \
+                    time integer, \
+                    date integer, \
+                    RSO_name text, \
+                    admin_approved integer, \
+                    contact_email integer, \
+                    contact_phone integer)'
+            return await this.DB.runAsync(sql)
+        }
+        catch(err) {
+            console.log("Could not start database with error: " + JSON.stringify(err))
+        }
+    }
+
     insertUser(user, callback){
         return this.DB.run(
             'INSERT INTO user (name,email,user_pass,is_admin) VALUES (?,?,?,?)',
             user, (err) => {
                 callback(err)
             })
+    }
+
+    insertEvent(event, callback){
+        return this.EventDB.run(
+            `INSERT INTO event (name,category,description,time,date,RSO_name,contact_email,contact_phone) \
+             VALUES (?,?,?,?,?,?,?,?)`,
+            event, (err) => {
+                callback(err);
+        }) 
     }
 
     selectByEmail(email, callback) {
@@ -78,32 +109,6 @@ class DB {
             callback(err,rows)
         })
     }
-async createEventTable() 
-    {           
-        try {
-            const sql = ' \
-                    CREATE TABLE IF NOT EXISTS event ( \
-                    Eventid integer PRIMARY KEY, \
-                    name text, \
-                    description text, \
-                    category text, \
-                    time integer, \
-                    date integer, \
-                    is_Admin integer, \
-                    count_email integer, \
-                    count_phone integer)'
-            return await this.EventDB.runAsync(sql)
-        }
-        catch(err) {
-            return console.error(err);
-        }
-    }
-
-    insertEvents(Events, callback){
-        return this.DB.run(`INSERT INTO event (name,category,description,time,date,count_email,count_phone) VALUES (?,?,?,?,?,?,?)`, [Event], (err) => {
-            callback(err);
-        }); 
-    }
 
     selectByEventName(name, callback){
         return this.EventsDB.get(`SELECT * FROM event WHERE name = ?`, [name], (err, row) => {
@@ -112,7 +117,6 @@ async createEventTable()
     };
 
     async createCommentstable(){
-
         try {
             var createComments = (
                 `CREATE TABLE IF NOT EXISTS Comments(
