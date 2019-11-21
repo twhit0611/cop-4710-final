@@ -88,13 +88,7 @@ import axios from 'axios';
 export default {
         
     data: () => ({ 
-
-            // boolean for modal
         school_dialog: false,
-
-        // inporting events without rso and approval 
-        // to be approved by the superadmin 
-        //we need to replace these ids with those in the sql database
         events: [
             {
                 id: 1,
@@ -121,10 +115,6 @@ export default {
                 reject: false,
             },
         ],
-
-        // name: '',
-        // category: '',
-        // description: '',
     }),
 
     methods : {

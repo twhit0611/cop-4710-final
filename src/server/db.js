@@ -7,10 +7,10 @@ const sqlite3 = require('sqlite3').verbose();
 class DB {
     constructor(file) {
         this.DB = new sqlite3.Database(file)
-        this.EventDB = new sqlite3.Database(file)
         this.createTable()
         this.createEventTable()
-        //this.createEventTable()
+        this.createCommentsTable()
+        this.createRSOTable()
     }
 
     //asynchronous methods
@@ -40,45 +40,63 @@ class DB {
     
     };
 
-    async createTable() {
-        try {
-            const sql = `
-                CREATE TABLE IF NOT EXISTS user ( 
-                    id integer PRIMARY KEY,
+    // create a table for users
+    createTable() {
+        const sql = `
+            CREATE TABLE IF NOT EXISTS user ( 
+                id integer PRIMARY KEY,
+                name text,
+                email text UNIQUE,
+                user_pass text,
+                is_admin integer)`
+        return this.DB.run(sql)
+    }
+
+    // create a table for events
+    createEventTable()  {
+        const sql = `
+                CREATE TABLE IF NOT EXISTS event (
+                    Eventid integer PRIMARY KEY,
                     name text,
-                    email text UNIQUE,
-                    user_pass text,
-                    is_admin integer)`
-            return await this.DB.runAsync(sql);
-        }
-        catch(err) {
-            console.log("Could not start database with error: "+ JSON.stringify(err));
-        }
+                    category text,
+                    type text,
+                    RSO_name text,
+                    description text,
+                    date integer,
+                    time integer,
+                    address text,
+                    admin_approved integer,
+                    contact_email integer,
+                    contact_phone integer)`
+        return this.DB.run(sql)
     }
 
-    async createEventTable() 
-    {           
-        try {
-            const sql = ' \
-                    CREATE TABLE IF NOT EXISTS event ( \
-                    Eventid integer PRIMARY KEY, \
-                    name text, \
-                    category text, \
-                    description text, \
-                    time integer, \
-                    date integer, \
-                    RSO_name text, \
-                    admin_approved integer, \
-                    contact_email integer, \
-                    contact_phone integer)'
-            return await this.DB.runAsync(sql)
-        }
-        catch(err) {
-            console.log("Could not start database with error: " + JSON.stringify(err))
-        }
+    createRSOTable() {
+        const sql = `
+            CREATE TABLE IF NOT EXISTS rso (
+                RSOid integer PRIMARY KEY,
+                name text,
+                school text,
+                description text,
+                student_email text,
+                student_signatures integer)`
+        return this.DB.run(sql)
     }
 
-    insertUser(user, callback){
+    // create a table for comments
+    createCommentsTable() {
+        const sql = `
+            CREATE TABLE IF NOT EXISTS comments (
+                CommentID integer primary key,
+                comment text,
+                time integer,
+                date integer,
+                is_Admin integer)`
+        return this.DB.run(sql)
+    }
+
+    // insert a user into the database
+    insertUser(user, callback) {
         return this.DB.run(
             'INSERT INTO user (name,email,user_pass,is_admin) VALUES (?,?,?,?)',
             user, (err) => {
@@ -86,13 +104,22 @@ class DB {
             })
     }
 
-    insertEvent(event, callback){
-        return this.EventDB.run(
-            `INSERT INTO event (name,category,description,time,date,RSO_name,contact_email,contact_phone) \
-             VALUES (?,?,?,?,?,?,?,?)`,
+    // insert an event into the database
+    insertEvent(event, callback) {
+        return this.DB.run(
+            `INSERT INTO event (name,category,type,RSO_name,description,date, 
+                time,address,contact_phone,contact_email) VALUES (?,?,?,?,?,?,?,?,?,?)`,
             event, (err) => {
-                callback(err);
-        }) 
+                callback(err)
+            })
+    }
+
+    insertRSO(rso, callback) {
+        return this.DB.run(
+            `INSERT INTO rso (name,school,description,student_email,student_signatures) VALUES (?,?,?,?,?)`,
+            rso, (err) => {
+                callback(err)
+            })
     }
 
     selectByEmail(email, callback) {
@@ -103,89 +130,17 @@ class DB {
             })
     }
 
-    selectAll(callback) {
-        return this.DB.all(`SELECT * FROM user`, (err,rows) => {
-            
-            callback(err,rows)
+    selectAllEvents(callback) {
+        return this.DB.all(`SELECT * FROM event`, (err, rows) => {
+            callback(err, rows)
         })
     }
 
-    selectByEventName(name, callback){
-        return this.EventsDB.get(`SELECT * FROM event WHERE name = ?`, [name], (err, row) => {
-            callback(err, row);
-        });
-    };
-
-    async createCommentstable(){
-        try {
-            var createComments = (
-                `CREATE TABLE IF NOT EXISTS Comments(
-                    CommentsID integer primary key,
-                    comment text,
-                    time integer,
-                    date integer,
-                    is_Admin integer
-                )`
-            )
-            return await this.CommentsDB.runAysnc(createComments)
-        }
-        catch(err) {
-            return console.error(err)
-        }
+    selectAll(callback) {
+        return this.DB.all(`SELECT * FROM user`, (err,rows) => {
+            callback(err,rows)
+        })
     }
-
-    async createRSOevent(){
-        try {
-    
-            var createRSO = (`
-            CREATE TABLE IF NOT EXISTS RSO(
-            RSOid integer,
-            name text,
-            description text,
-            type text,
-            category text,
-            time, integer,
-            date integer,
-            is_Admin integer,
-            count_email integer,
-            count_phone integer
-            )
-            `)
-    
-            return await this.EventsDB.runAysnc(createRSO);
-    
-        }
-    
-        catch(err){
-            console.log("There was a problem creating an RSO event in the database");
-        }
-        
-    }
-    
-    insertintoRSO(RSO, callback){
-            var insertRSOqueue = (
-                ` 'INSERT INTO event (name,description,type,category,is_Admin) VALUES (?,?,?,?,?)' `
-            );
-                
-            return this.EventsDB.run(insertRSOqueue, [RSO], (err) => {
-                callback(err);
-            });
-    }
-    
-    selectByRSOName(name, callback){
-    
-        var selectRSOquery = (
-            ` SELECT * FROM RSO WHERE name = ?`
-        );
-    
-        return this.EventsDB.get(selectRSOquery, [name], (err, row) => {
-    
-            callback(err, row);
-    
-        });
-    };
-
-
 }
 
 module.exports = DB;
