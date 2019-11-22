@@ -65,14 +65,14 @@ let router = new Router ({
       name: 'events',
       component: Events,
       meta: {
-        guest: true
+        requiresAuth: true
       }
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  // handle recor that require authentication
+  // handle record that require authentication
   if (to.matched.some(record => record.meta.requiresAuth))  {
     // if the user is not authenticated, navigate them to login
     if (localStorage.getItem('jwt') == null) {

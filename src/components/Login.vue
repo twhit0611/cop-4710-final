@@ -47,30 +47,6 @@
       </v-container>
     </v-content>
   </v-app>
-
-    <!-- <div>
-        <img src="@/assets/logo.png">
-        <h4>Login</h4>
-        <form>
-            <label for="email">E-mail Address</label>
-            <div>
-                <input id="email" type="email" v-model="email" required autofocus>
-            </div>
-            <div>
-                <label for="password">Password</label>
-                <div>
-                    <input id="password" type="password" v-model="password" required>
-                </div>
-            </div>
-            <div>
-                <button type="submit" @click="handleSubmit">Login</button>
-            </div>
-        </form>
-        <div>
-            <h4>Don't have an account?</h4>
-            <button type="submit" v-on:click="goToRegister">Register</button>
-        </div>
-    </div>     -->
 </template>
 
 <script>

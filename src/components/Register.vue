@@ -63,50 +63,6 @@
       </v-container>
     </v-content>
   </v-app>
-
-    <!-- <div class="main">
-        <img src="@/assets/registration.png" class="titleImage">
-        <h4>Register</h4>
-        <form class="registerForm">
-            <label for="name">Name</label>
-            <div>
-                <input id="name" type="text" v-model="name" required autofocus>
-            </div>
-
-            <label for="email" >E-Mail Address</label>
-            <div>
-                <input id="email" type="email" v-model="email" required>
-            </div>
-
-            <label for="password">Password</label>
-            <div>
-                <input id="password" type="password" v-model="password" required>
-            </div>
-
-            <label for="password-confirm">Confirm Password</label>
-            <div>
-                <input id="password-confirm" type="password" v-model="password_confirmation" required>
-            </div>
-
-            <label for="password-confirm">What is this account's type?</label>
-            <div>
-                <select v-model="is_admin">
-                    <option value=2>Super-Admin</option>
-                    <option value=1>Admin</option>
-                    <option value=0>User</option>
-                </select>
-            </div>
-            <div>
-                <button type="submit" @click="handleSubmit">
-                    Register
-                </button>
-            </div>
-        </form>
-        <div>
-            <h4>Already have an account?</h4>
-            <button type="submit" v-on:click="goToLogin" class="loginButton">Go to login</button>
-        </div>
-    </div> -->
 </template>
 
 <script>

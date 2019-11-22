@@ -42,6 +42,45 @@ router.post('/register', (req, res) => {
     })
 })
 
+router.post('/register-event', (req, res) => {
+    db.insertEvent([
+        req.body.name,
+        req.body.category,
+        req.body.type,
+        req.body.RSO_name,
+        req.body.description,
+        req.body.date,
+        req.body.time,
+        req.body.address,
+        req.body.contact_phone,
+        req.body.contact_email
+    ],
+    (err) => {
+        if (err) return res.status(500).send('There was a problem creating the event.')
+    })
+})
+
+router.post('/register-rso', (req, res) => {
+    db.insertRSO([
+        req.body.name,
+        req.body.school,
+        req.body.description,
+        req.body.student_email,
+        req.body.student_signatures
+    ],
+    (err) => {
+        if (err) return res.status(500).send('There was a problem registering the RSO.')
+    })
+})
+
+// access all events
+router.post('/get-all-events', (req, res) => {
+    db.selectAllEvents((err, rows) => {
+        if (err) return res.status(500).send('Error on the server.')
+        res.status(200).send({rows:rows})
+    })
+})
+
 // login a user
 router.post('/login', (req, res) => {
     db.selectByEmail(req.body.email, (err, user) => {
@@ -52,23 +91,6 @@ router.post('/login', (req, res) => {
         let token = jwt.sign({ id: user.id }, config.secret, { expiresIn: 86400 // expires in 24 hours
         })
         res.status(200).send({ auth: true, token: token, user: user })
-    })
-})
-
-// register an event
-router.post('/event', (req, res) => {
-    db.insertEvent([
-        req.body.name,
-        req.body.category,
-        req.body.description,
-        req.body.time,
-        req.body.date,
-        req.body.RSO_name,
-        req.body.contact_email,
-        req.body.contact_phone
-    ],
-    (err) => {
-        if (err) return res.status(500).send("There was a problem creating the event.")
     })
 })
 
