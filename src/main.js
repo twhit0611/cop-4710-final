@@ -13,13 +13,13 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete';
  
 Vue.use(VuetifyGoogleAutocomplete, {
-  apiKey: 'Andrew has the key', // Can also be an object. E.g, for Google Maps Premium API, pass `{ client: <YOUR-CLIENT-ID> }`
+  apiKey: 'AIzaSyBNN_PpQ4_jqsnVgd2BYCEkHYOWVAUnDc8', // Can also be an object. E.g, for Google Maps Premium API, pass `{ client: <YOUR-CLIENT-ID> }`
 });
 
 Vue.use(Vuetify)
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'Andrew has the key',
+    key: 'AIzaSyBNN_PpQ4_jqsnVgd2BYCEkHYOWVAUnDc8',
     libraries: 'places', 
   },
   installComponents: true
