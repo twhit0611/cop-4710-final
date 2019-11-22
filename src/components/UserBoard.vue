@@ -95,7 +95,7 @@
                             <v-col cols="12" sm="6">
                                 <v-select
                                     v-model="cat"
-                                    :items="catergory"
+                                    :items="category"
                                     menu-props="auto"
                                     label="Select Event Category"
                                     hide-details
@@ -255,7 +255,7 @@ export default {
 
     search: '',
 
-    catergory: [ 'Social', 'Fundrasing', 'Academic', 'Volunteering', 'Carrer'],
+    category: [ 'Social', 'Fundrasing', 'Academic', 'Volunteering', 'Carrer'],
     event_type: ['Public', 'Private', 'RSO Event' ],
 
     // list of avaliable college to sort thru
@@ -266,53 +266,42 @@ export default {
     type: '',
 
     // input events from the database and for loop output
-    events: [
-      {
-        id: 1,
-        name: 'BBQ',
-      },
-      {
-        id: 2,
-        name: 'party'
-      },
-      {
-        id: 3,
-        name: 'dinner'
-      },
-      {
-        id: 4,
-        name: 'dinner'
-      },
-            {
-        id: 5,
-        name: 'BBQ'
-      },
-      {
-        id: 6,
-        name: 'party'
-      },
-      {
-        id: 7,
-        name: 'dinner'
-      },
-      {
-        id: 8,
-        name: 'dinner'
-      },
-    ],
+    events: []
     
   }),
+
   mounted() {
-        this.$refs.address.focus();
+    this.$refs.address.focus()
+  },
+
+  beforeMount() {
+    this.getAllEvents()
+  },
+
+  methods: {
+    getAddressData: function (addressData, placeResultData, id) {
+      // getting the address data to output to the  
+      // returns:
+      //       street_number, route, locality, 
+      //       administrative_area_level_1, country, 
+      //       postal_code, latitude, longitude
+      this.address = addressData;
     },
 
-  getAddressData: function (addressData, placeResultData, id) {
-    // getting the address data to output to the  
-    // returns:
-    //       street_number, route, locality, 
-    //       administrative_area_level_1, country, 
-    //       postal_code, latitude, longitude
-    this.address = addressData;
-  },
+    getAllEvents() {
+      this.$http.post('http://localhost:3000/get-all-events')
+      .then(response => {
+        if (response.data.rows == null) {alert('No events found.')}
+        response.data.rows.forEach((element, i) => {
+          if (element.RSO_name != '' || element.admin_approved != null) {
+            this.events.push(element)
+          }
+        })
+      })
+      .catch(err => {
+        return console.error(err)
+      })
+    }
+  }
 }
 </script>

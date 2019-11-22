@@ -248,6 +248,16 @@ export default {
             .catch(error => {
                 console.error(error)
             })
+            this.event_name=''
+            this.event_category=''
+            this.event_type=''
+            this.event_RSO_name=''
+            this.event_description=''
+            this.event_event_date=''
+            this.event_time=''
+            this.event_address=''
+            this.event_contact_phone=''
+            this.event_contact_email=''
         },
 
         handleSubmitRSO(e) {
@@ -263,6 +273,10 @@ export default {
             .catch(error => {
                 console.error(error)
             })
+            this.rso_name=''
+            this.rso_school=''
+            this.rso_description=''
+            this.rso_student_email=''
         },
 
         getAddressData: function (addressData, placeResultData, id) {

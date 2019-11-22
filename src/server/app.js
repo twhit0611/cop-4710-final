@@ -75,9 +75,9 @@ router.post('/register-rso', (req, res) => {
 
 // access all events
 router.post('/get-all-events', (req, res) => {
-    db.selectAllEvents(err => {
+    db.selectAllEvents((err, rows) => {
         if (err) return res.status(500).send('Error on the server.')
-        res.status(200).send({events: []})
+        res.status(200).send({rows:rows})
     })
 })
 
