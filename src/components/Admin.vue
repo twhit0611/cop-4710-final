@@ -144,8 +144,14 @@
                                     <v-col cols="12">
                                         <v-text-field id="description" label="Description*" required></v-text-field>
                                     </v-col>
-                                     <v-col cols="12">
-                                        <v-text-field id="numofemails" label="Student emails*" required></v-text-field>
+                                     <v-col cols="12" v-for="email in emails" :key="email">
+
+                                        <v-text-field id="numofemails" label="Student emails*" required>
+                                            <template v-slot:append-outer>
+                                                <v-btn flat icon color="primary" @click="clickMe"> <v-icon>add</v-icon></v-btn>
+                                            </template>
+                                        </v-text-field>
+
                                     </v-col>
                                 </v-row>
                             </v-container>
@@ -209,7 +215,7 @@ export default {
         menu2: false,
 
         // input the RSO specific to this admin
-        admin_RSO: ['tech club', 'spanish club'],
+        admin_RSO: ['Spanish Club', 'spanish club'],
         admin_college: "Insert College",
         catergory: [ 'Social', 'Fundrasing', 'Academic', 'Volunteering', 'Carrer'],
         event_type: ['Public', 'Private', 'RSO Event' ],
@@ -218,6 +224,8 @@ export default {
         rso:'',
         cat: '',
         type: '',
+
+        emails: ['','','','','',],
 
 
         // boolean for the modals

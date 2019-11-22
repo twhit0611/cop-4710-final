@@ -39,7 +39,7 @@ let router = new Router ({
       name: 'dashboard',
       component: UserBoard,
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
       }
     },
     {
@@ -47,7 +47,7 @@ let router = new Router ({
       name: 'admin',
       component: Admin,
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
         is_admin: true
       }
     },
@@ -56,7 +56,7 @@ let router = new Router ({
       name: 'superadmin',
       component: SuperAdmin,
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
         is_super_admin: true
       }
     },

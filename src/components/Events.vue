@@ -39,14 +39,14 @@
       <v-divider></v-divider>
       <v-row justify="center">
         <GmapMap
-          :center="{lat:36.964, lng: -122.015}"
-          :zoom="7"
+          :center="{lat:28.606916, lng: -81.202644}"
+          :zoom="15"
           map-type-id="roadmap"
           style="width: 500px; height: 300px"
           justify ="center"
         >
           <GmapMarker 
-            :position="{lat:36.964, lng: -122.015}"
+            :position="{lat:28.606916, lng: -81.202644}"
             :clickable="true"
             :draggable="true"
             @click="center=m.position"
@@ -124,15 +124,15 @@ export default {
         event: {
           name: 'BBQ',
           school: "UCF",
-          rso: "Tech Club",
-          category: "Tech",
+          rso: "Spanish Club",
+          category: "Social",
           type: "Public",
-          description: " we gonna party ",
-          date: "11-19",
-          time: "11:30",
-          address: "4000 Central Florida Blvd, Orlando, FL 32816", 
-          phone: "407 456-9504",
-          email: "email"
+          description: "BBQ at the lake, bring your swim suits!",
+          date: "2019-11-24",
+          time: "11:30am",
+          address: "12491 Gemini Blvd N, Orlando, FL 32816, USA", 
+          phone: "(407) 409-3832",
+          email: "spanishclub@ucf.edu"
         },
 
         // v-model for comments
@@ -160,6 +160,7 @@ export default {
     methods: {
       clickMe() {
         this.comments.push(this.message)
+        this.message = ''
       }
     }
 }
