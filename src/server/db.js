@@ -11,6 +11,7 @@ class DB {
         this.createEventTable()
         this.createCommentsTable()
         this.createRSOTable()
+        this.createSchoolTable()
     }
 
     //asynchronous methods
@@ -83,6 +84,16 @@ class DB {
         return this.DB.run(sql)
     }
 
+    createSchoolTable() {
+        const sql = `
+            CREATE TABLE IF NOT EXISTS school (
+                id integer PRIMARY KEY,
+                name text,
+                category text,
+                description text)`
+        return this.DB.run(sql)
+    }
+
     // create a table for comments
     createCommentsTable() {
         const sql = `
@@ -120,6 +131,15 @@ class DB {
             rso, (err) => {
                 callback(err)
             })
+    }
+
+    insertSchool(school, callback) {
+        return this.DB.run(
+            `INSERT INTO school (name,category,description) VALUES (?,?,?)`,
+            school, (err) => {
+                callback(err)
+            }
+        )
     }
 
     selectByEmail(email, callback) {

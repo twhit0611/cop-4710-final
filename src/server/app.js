@@ -73,6 +73,17 @@ router.post('/register-rso', (req, res) => {
     })
 })
 
+router.post('/register-school', (req, res) => {
+    db.insertSchool([
+        req.body.name,
+        req.body.category,
+        req.body.description
+    ],
+    (err) => {
+        if(err) return res.status(500).send('There was a problem creating the school.')
+    })
+})
+
 // access all events
 router.post('/get-all-events', (req, res) => {
     db.selectAllEvents((err, rows) => {

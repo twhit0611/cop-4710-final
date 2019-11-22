@@ -28,13 +28,13 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="12" sm="6" md="4">
-                                        <v-text-field v-model="name" label="Name*" required></v-text-field>
+                                        <v-text-field v-model="school_name" label="Name*" required></v-text-field>
                                     </v-col>
                                      <v-col cols="12" sm="6" md="4">
-                                        <v-text-field v-model="category" label="Category*"  required></v-text-field>
+                                        <v-text-field v-model="school_category" label="Category*"  required></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-text-field v-model="description" label="Description*" required></v-text-field>
+                                        <v-text-field v-model="school_description" label="Description*" required></v-text-field>
                                     </v-col>
                                 </v-row>
                             </v-container>
@@ -42,7 +42,7 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="blue darken-1" text @click="school_dialog = false">Close</v-btn>
-                            <v-btn color="blue darken-1" text @click="AddingNewEvent">Save</v-btn>
+                            <v-btn color="blue darken-1" text @click="handleSubmitSchool">Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -83,98 +83,41 @@
 
 <script>
 
-import axios from 'axios';
-
 export default {
-        
     data: () => ({ 
         school_dialog: false,
-        events: [
-            {
-                id: 1,
-                name: 'BBQ',
-                category: 'tech',
-                description: 'blahblajbhaeigwef',
-                approve: false,
-                reject: false, 
-            },
-            {
-                id: 2,
-                name: 'party',
-                category: 'tech',
-                description: 'blahblajbhaeigwef',
-                approve: false,
-                reject: false,
-            },
-            {
-                id: 3,
-                name: 'dinner',
-                category: 'tech',
-                description: 'blahblajbhaeigwef',
-                approve: false,
-                reject: false,
-            },
-        ],
+        events: [],
+        school_name: '',
+        school_category: '',
+        school_description: ''
     }),
-
     methods : {
+        handleSubmitSchool(e) {
+            e.preventDefault()
+            let url = 'http://localhost:3000/register-school'
+            this.$http.post(url, {
+                name: this.school_name,
+                category: this.school_category,
+                description: this.school_description
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+        },
 
         addEvents(newEvent) {
             this.events = [...this.events, newEvent]
         },
+
         deleteEvent(id){
-            this.events = this.events.filter(events => events.id !== id)
         },
         AddingNewEvent(e)
         {   //add new event method
-
             e.preventDefault();
-            //want to remain authenticated when adding events
-                                
-                    const Config = {
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'Accept': 'application/json'
-                            }
-                        }
-                
-                axios.post('http://localhost:3000/event', {
-                    name: this.events.name,
-                    category: this.events.category,
-                    description: this.events.description
-                }, Config)
-                .then(
-                    res => {
-                        this.events = res.data,
-                        addEvents(res.data)
-                    }
-                )
-                .catch(
-                    err => console.log("Could not create new event with error: " + JSON.stringify(err))
-                );
-
         },
          DeletingEvent() {
-             //want to remain authenticated when deleting events
-            if (localStorage.getItem('jwt') != null) {
-            axios.delete('http://localhost:3000/events', {
-                    name: this.events.name,
-                    category: this.events.category,
-                    description: this.events.description
-            })
-            .then(
-                res => {
-                    this.events = res.data,
-                    deleteEvent(res.data)
-                }
-            )
-            .catch(
-                err => console.log("Could not Delete event in the database with error: " + JSON.stringify(err))
-            )
-            }
         }
-    },
-    
+    }
 }
 </script>
 
