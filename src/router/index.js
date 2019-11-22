@@ -65,7 +65,7 @@ let router = new Router ({
       name: 'events',
       component: Events,
       meta: {
-        guest: true
+        requiresAuth: true
       }
     }
   ]
