@@ -70,8 +70,8 @@
                         </v-list-item>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text>Approve</v-btn>
-                        <v-btn color="blue darken-1" text>Reject</v-btn>
+                        <v-btn color="blue darken-1" text v-on:click="approveEvent(event)">Approve</v-btn>
+                        <v-btn color="blue darken-1" text v-on:click="rejectEvent(event)">Reject</v-btn>
                     </v-card-actions>
                     </v-card>
                 </v-card-text>
@@ -107,7 +107,7 @@ export default {
             })
         },
 
-        getAllEvents(e)
+        getAllEvents()
         {   //add new event method
             let url = 'http://localhost:3000/get-unauthorized-events'
             this.$http.post(url)
@@ -121,6 +121,30 @@ export default {
                 return console.error(err)
             })
         },
+
+        approveEvent(event)
+        {
+            let url = 'http://localhost:3000/approve-event'
+            this.$http.post(url, {
+                Eventid: event.Eventid
+            })
+            .catch((err) => {
+                return console.error(err)
+            })
+            this.$router.go()
+        },
+
+        rejectEvent(event)
+        {
+            let url = 'http://localhost:3000/reject-event'
+            this.$http.post(url, {
+                Eventid: event.Eventid
+            })
+            .catch((err) => {
+                return console.error(err)
+            })
+            this.$router.go()
+        }
     }
 }
 </script>

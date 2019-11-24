@@ -108,6 +108,18 @@ router.post('/get-unauthorized-events', (req, res) => {
     })
 })
 
+router.post('/approve-event', (req, res) => {
+    db.updateApproveEvent(req.body.Eventid, (err) => {
+        if (err) return res.status(500).send('Error on the server.')
+    })
+})
+
+router.post('/reject-event', (req, res) => {
+    db.deleteRejectEvent(req.body.Eventid, (err) => {
+        if (err) return res.status(500).send('Error on the server.')
+    })
+})
+
 // login a user
 router.post('/login', (req, res) => {
     db.selectByEmail(req.body.email, (err, user) => {

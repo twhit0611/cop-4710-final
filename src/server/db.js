@@ -163,6 +163,19 @@ class DB {
         })
     }
 
+    updateApproveEvent(Eventid, callback) {
+        this.DB.run(`UPDATE event SET admin_approved = 1 WHERE Eventid = ?`, [Eventid], (err) => {
+            if (err) return console.error(err.message)
+        })
+    }
+
+    deleteRejectEvent(Eventid, callback) {
+        this.DB.run(`DELETE FROM event WHERE Eventid = ?`, [Eventid], (err) => {
+            if (err) return console.error(err.message)
+        })
+
+    }
+
     selectAllRSOs(callback) {
         return this.DB.all(`SELECT * FROM rso`, (err, rows) => {
             callback(err, rows)
