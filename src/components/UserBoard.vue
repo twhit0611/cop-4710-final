@@ -172,44 +172,6 @@
               </v-list>
               
               </v-menu>
-
-            <!-- <v-dialog v-model="dialog1" max-width="600px">
-                <template v-slot:activator="{ on }">
-                    <v-btn color="secondary" dark v-on="on">Create new RSO</v-btn>
-                </template>
-                <v-card>
-                    <v-card-title>
-                        <span class="headline">Create RSO</span>
-                    </v-card-title>
-                    <v-card-text>
-                        <v-container>
-			                    <v-row>
-                              <v-col cols="12" sm="6" md="4">
-                                  <v-text-field id="name" label="Name*" v-model="rso_name" required></v-text-field>
-                              </v-col>
-                              <v-col cols="12" sm="6" md="4">
-                                  <v-text-field id="school" label="School*" v-model="rso_school" required></v-text-field>
-                              </v-col>
-                              <v-col cols="12">
-                                  <v-text-field id="description" label="Description*" v-model="rso_description" required></v-text-field>
-                              </v-col>
-                                <v-col cols="12">
-                                  <v-text-field id="numberofemails" label="Student emails*" v-model="rso_student_email" required></v-text-field>
-                              </v-col>
-                          </v-row>
-                        </v-container>
-                        <small>*indicates required field</small>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text @click="dialog1 = false">Close</v-btn>
-                        <v-btn color="blue darken-1" text @click="dialog1 = false" v-on:click="handleSubmitRSO">Save</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>          
-            <v-spacer></v-spacer> -->
-
-
              <v-select
                 v-model="join_rso"
                 flat
@@ -219,130 +181,7 @@
                 prepend-inner-icon="add"
                 label="Join RSO"
               ></v-select>
-
-            <!-- <v-dialog v-model="join_modal" max-width="600px">
-              <template v-slot:activator="{ on }">
-                  <v-btn color="secondary" dark v-on="on">Join RSO</v-btn>
-              </template>
-              <v-card>
-                  <v-card-title>
-                      <span class="headline">Join RSO</span>
-                  </v-card-title>
-                  <v-card-text>
-                    <li v-for="RSO in RSO_list" v-bind:key="RSO">
-                      <v-btn >{{RSO}}</v-btn>
-                    </li>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="join_modal = false">Close</v-btn>
-                    <v-btn color="blue darken-1" text @click="join_modal = false">Save</v-btn>
-                  </v-card-actions>
-              </v-card>
-            </v-dialog>  
-            <v-spacer></v-spacer> -->
-
-            <!-- <v-dialog v-model="create_event" max-width="600px">
-              <template v-slot:activator="{ on }">
-                  <v-btn color="secondary" dark v-on="on">Create Unaffilated Event</v-btn>
-              </template>
-              <v-card>
-                <v-card-title>
-                    <span class="headline">Create New Event</span>
-                </v-card-title>
-                <v-card-text>
-                    <v-container>
-                        <v-row>
-                            <v-col cols="12" sm="6">
-                                <v-text-field label="Title" v-model="event_name" required></v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="6">
-                                <v-select
-                                    v-model="event_category"
-                                    :items="category"
-                                    menu-props="auto"
-                                    label="Select Event Category"
-                                    hide-details
-                                    single-line
-                                ></v-select> 
-                            </v-col>
-                              <v-col cols="12" sm="6">
-                                <v-select
-                                    v-model="event_type"
-                                    :items="event_type_list"
-                                    menu-props="auto"
-                                    label="Select Event Type"
-                                    hide-details
-                                    single-line
-                                ></v-select> 
-                            </v-col>
-                            <v-col cols="12">
-                                <v-text-field label="Description" v-model="event_description" required></v-text-field>
-                            </v-col>                  
-                            <v-col cols="12" sm="6">
-                                <v-menu
-                                    ref="menu"
-                                    v-model="menu"
-                                    :close-on-content-click="false"
-                                    :return-value.sync="date"
-                                    transition="scale-transition"
-                                    offset-y
-                                    min-width="290px"
-                                >
-                                    <template v-slot:activator="{ on }">
-                                    <v-text-field
-                                        v-model="event_date"
-                                        label="Date"
-                                        readonly
-                                        v-on="on"
-                                    ></v-text-field>
-                                    </template>
-                                    <v-date-picker v-model="event_date" no-title scrollable>
-                                    <v-spacer></v-spacer>
-                                    <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                                    <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
-                                    </v-date-picker>
-                                </v-menu>
-                            </v-col>
-                            <v-col cols="12" sm="6">
-                                <v-text-field label="Time, ex: 11:30am" required></v-text-field>
-                            </v-col>
-                            <v-col cols="12" >
-                                <vuetify-google-autocomplete
-                                    ref="address"
-                                    id="map"
-                                    classname="form-control"
-                                    placeholder="Address"
-                                    v-on:placechanged="getAddressData"
-                                    country="us"
-                                    v-model="event_address"
-                                >
-                                </vuetify-google-autocomplete>
-                            </v-col>
-                            <v-col cols="12" sm="6">
-                                <v-text-field label="Contact phone number" v-model="event_contact_phone" required></v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="6">
-                                <v-text-field label="Contact email address" v-model="event_contact_email" required></v-text-field>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                    <small>*indicates required field</small>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="create_event = false">Close</v-btn>
-                    <v-btn 
-                        color="blue darken-1" 
-                        text 
-                        @click="create_event = false"
-                        v-on:click="handleSubmitEvent"
-                    >Save</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog> 
-            <v-spacer></v-spacer> -->
-
+            <v-spacer></v-spacer>
            <v-select
                 v-model="sortBy"
                 flat
@@ -423,16 +262,9 @@
                             <v-list-item-title class="headline mb-1">{{rso}} </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                        <!-- follow RSO ? -->
-                        <!-- <v-btn text :to="{name: 'RSO page'}" >Info</v-btn> -->
-                    </v-card-actions>
                 </v-card>
               </v-col>
             </v-row>
-
-
           </v-tab-item>
         </v-tabs-items>
         </v-data-iterator>

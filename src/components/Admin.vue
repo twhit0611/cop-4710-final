@@ -164,6 +164,35 @@
                     </v-card>
                 </v-dialog>
                 <v-spacer></v-spacer>
+                <v-dialog v-model="delete_mem" max-width="600px">
+                    <template v-slot:activator="{ on }">
+                        <v-btn color="secondary" dark v-on="on">Delete Member</v-btn>
+                    </template>
+                    <v-card>
+                        <v-card-title>
+                            <span class="headline">Delete Member</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-container>
+                                <v-select
+                                    v-model="delete_member"
+                                    :items="delete_list"
+                                    label="Choose a Member to delete"
+                                ></v-select>
+                            </v-container>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" text @click="delete_mem = false">Close</v-btn>
+                            <v-btn 
+                                color="blue darken-1" 
+                                text 
+                                @click="delete_mem = false"
+                                v-on:click="handleSubmitDelete">Save</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+                <v-spacer></v-spacer>
         </v-toolbar>
       </v-container>
             <v-container>
@@ -225,7 +254,14 @@ export default {
             category: ['Social', 'Fundraising', 'Academic', 'Volunteering', 'Career'],
             event_type_list: ['Public', 'Private', 'RSO Event'],
             event_modal: false,
-            dialog1: false
+            dialog1: false,
+            delete_mem: false,
+
+            // model for which member to delete 
+            delete_member: '',
+
+            // list of members of RSO to delete 
+            delete_list: [],
         }
     },
 
@@ -277,6 +313,16 @@ export default {
             this.rso_school=''
             this.rso_description=''
             this.rso_student_email=''
+        },
+
+        handleSubmitDelete(e) {
+
+            // model for which member to delete 
+            // delete_member
+
+            // list of members of RSO to delete 
+            // delete_list
+
         },
 
         getAddressData: function (addressData, placeResultData, id) {

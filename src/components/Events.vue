@@ -9,109 +9,109 @@
             </v-btn>
         <v-toolbar-title>Event Page</v-toolbar-title>
           </v-app-bar>
- <v-container fluid>
-  <v-card
-    class="mx-auto"
-    max-width="900">
-    <v-card-title>
-      <span >{{event.name}}</span>
-    </v-card-title>
-    <v-card-subtitle>
-       <v-row 
-       align="left">
-            <v-col>{{event.school}}</v-col>
-            <v-col>{{event.rso}}</v-col>
-            <v-col>{{event.category}}</v-col> 
-            <v-col>{{event.type}}</v-col> 
-            
+    <v-container fluid>
+      <v-card
+        class="mx-auto"
+        max-width="900">
+        <v-card-title>
+          <span >{{event.name}}</span>
+        </v-card-title>
+        <v-card-subtitle>
+        <v-row 
+        align="left">
+              <v-col>{{event.school}}</v-col>
+              <v-col>{{event.rso}}</v-col>
+              <v-col>{{event.category}}</v-col> 
+              <v-col>{{event.type}}</v-col> 
+              
+          </v-row> 
+      </v-card-subtitle>
+
+      <v-card-text >
+        <v-divider></v-divider>
+        <v-col>{{event.description}}</v-col>
+        <v-divider></v-divider>
+        <v-row>
+          <v-col >{{event.date}}</v-col>
+          <v-col >{{event.time}}</v-col> 
+          <v-col >{{event.address}}</v-col> 
         </v-row> 
-    </v-card-subtitle>
+        <v-divider></v-divider>
+        <v-row justify="center">
+          <GmapMap
+            :center="{lat:28.606916, lng: -81.202644}"
+            :zoom="15"
+            map-type-id="roadmap"
+            style="width: 500px; height: 300px"
+            justify ="center"
+          >
+            <GmapMarker 
+              :position="{lat:28.606916, lng: -81.202644}"
+              :clickable="true"
+              :draggable="true"
+              @click="center=m.position"
+            />
+          </GmapMap>
+        </v-row>
+        <v-divider></v-divider>
+        <v-row>
+          <v-col >{{event.phone}}</v-col>
+          <v-col >{{event.email}}</v-col> 
+        </v-row>  
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions class="pa-4">
+        <v-btn
+          v-for="(social, icon) in socials"
+          :key="icon"
+          :color="social.color"
+          fab
+          icon
+          small 
+        > 
+          <v-icon>{{ social.icon }}</v-icon>
+        </v-btn>
+        <v-spacer></v-spacer>
+        <span>
+          ({{ rating }})
+        </span>
+        <v-rating
+          v-model="rating"
+          background-color="white"
+          color="yellow accent-4"
+          hover
+          size="18"
+          
+        ></v-rating>
+      </v-card-actions>
+      <v-card-text>
 
-    <v-card-text >
-      <v-divider></v-divider>
-      <v-col>{{event.description}}</v-col>
-      <v-divider></v-divider>
-      <v-row>
-        <v-col >{{event.date}}</v-col>
-        <v-col >{{event.time}}</v-col> 
-        <v-col >{{event.address}}</v-col> 
-      </v-row> 
-      <v-divider></v-divider>
-      <v-row justify="center">
-        <GmapMap
-          :center="{lat:28.606916, lng: -81.202644}"
-          :zoom="15"
-          map-type-id="roadmap"
-          style="width: 500px; height: 300px"
-          justify ="center"
-        >
-          <GmapMarker 
-            :position="{lat:28.606916, lng: -81.202644}"
-            :clickable="true"
-            :draggable="true"
-            @click="center=m.position"
-          />
-        </GmapMap>
-      </v-row>
-      <v-divider></v-divider>
-      <v-row>
-        <v-col >{{event.phone}}</v-col>
-        <v-col >{{event.email}}</v-col> 
-      </v-row>  
-    </v-card-text>
-    <v-divider></v-divider>
-    <v-card-actions class="pa-4">
-      <v-btn
-        v-for="(social, icon) in socials"
-        :key="icon"
-        :color="social.color"
-        fab
-        icon
-        small 
-      > 
-        <v-icon>{{ social.icon }}</v-icon>
-      </v-btn>
-      <v-spacer></v-spacer>
-      <span>
-        ({{ rating }})
-      </span>
-      <v-rating
-        v-model="rating"
-        background-color="white"
-        color="yellow accent-4"
-        hover
-        size="18"
-        
-      ></v-rating>
-    </v-card-actions>
-    <v-card-text>
+        <v-card>
+          <v-card-title>Event Comments</v-card-title>
+          <v-container >
 
-      <v-card>
-        <v-card-title>Event Comments</v-card-title>
-        <v-container >
+            <v-row v-for="comment in comments" v-bind:key="comment" >
+            <v-chip class="ma-2">
+              {{comment}}
+            </v-chip>
+            </v-row>
+                <v-text-field
+                  v-model="message"
+                  outlined
+                  clearable
+                  label="Message"
+                  type="text"> 
+                  <template v-slot:append-outer>
+                    <v-btn flat color="primary" @click="clickMe">Send</v-btn>
+                  </template>
+                </v-text-field>
+          </v-container>
+        </v-card>
 
-          <v-row v-for="comment in comments" v-bind:key="comment" >
-          <v-chip class="ma-2">
-            {{comment}}
-          </v-chip>
-          </v-row>
-              <v-text-field
-                v-model="message"
-                outlined
-                clearable
-                label="Message"
-                type="text"> 
-                <template v-slot:append-outer>
-                  <v-btn flat color="primary" @click="clickMe">Send</v-btn>
-                </template>
-              </v-text-field>
-        </v-container>
+
+      </v-card-text>
       </v-card>
-
-
-    </v-card-text>
-  </v-card>
-  </v-container>
+    </v-container>
 </v-app>
 </template>
 
