@@ -175,6 +175,13 @@ class DB {
             callback(err,rows)
         })
     }
+
+    deleteuserfromRSO(name, callback){
+        return this.DB.run('DELETE FROM rso WHERE name = ?', [name], (err, rows) => {
+            callback(err, rows);
+        })
+    }
+    
 }
 
 module.exports = DB;
