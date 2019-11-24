@@ -156,6 +156,20 @@ class DB {
         })
     }
 
+    selectUnauthorizedEvents(callback) {
+        return this.DB.all(`SELECT * FROM event WHERE admin_approved IS NULL AND RSO_name IS ''`,
+        (err, rows) => {
+            callback(err, rows)
+        })
+    }
+
+    selectAllRSOs(callback) {
+        return this.DB.all(`SELECT * FROM rso`, (err, rows) => {
+            callback(err, rows)
+        })
+    }
+
+
     selectAll(callback) {
         return this.DB.all(`SELECT * FROM user`, (err,rows) => {
             callback(err,rows)

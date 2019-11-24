@@ -92,6 +92,22 @@ router.post('/get-all-events', (req, res) => {
     })
 })
 
+// access all RSOs
+router.post('/get-all-RSOs', (req, res) => {
+    db.selectAllRSOs((err, rows) => {
+        if (err) return express.status(500).send('Error on the server.')
+        res.status(200).send({rows:rows})
+    })
+})
+
+// get unauthorized events for super-admin
+router.post('/get-unauthorized-events', (req, res) => {
+    db.selectUnauthorizedEvents((err, rows) => {
+        if (err) return express.status(500).send('Error on the server.')
+        res.status(200).send({rows:rows})
+    })
+})
+
 // login a user
 router.post('/login', (req, res) => {
     db.selectByEmail(req.body.email, (err, user) => {

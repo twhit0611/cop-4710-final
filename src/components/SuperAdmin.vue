@@ -58,8 +58,7 @@
                         class="mx-auto"
                         max-width="650"
                         outlined
-                        tile
-                        v-if="event.approve === false && event.reject === false">
+                        tile>
                         <v-list-item two-line>
                           <v-list-item-content>
                                 <v-list-item-title>{{event.name}} </v-list-item-title>
@@ -71,8 +70,8 @@
                         </v-list-item>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text @click="event.approve = true">Approve</v-btn>
-                        <v-btn color="blue darken-1" text @click="event.reject = true">Reject</v-btn>
+                        <v-btn color="blue darken-1" text>Approve</v-btn>
+                        <v-btn color="blue darken-1" text>Reject</v-btn>
                     </v-card-actions>
                     </v-card>
                 </v-card-text>
@@ -84,12 +83,15 @@
 <script>
 
 export default {
+    beforeMount() {
+        this.getAllEvents()
+    },
     data: () => ({ 
         school_dialog: false,
         events: [],
         school_name: '',
         school_category: '',
-        school_description: ''
+        school_description: '',
     }),
     methods : {
         handleSubmitSchool(e) {
@@ -105,18 +107,20 @@ export default {
             })
         },
 
-        addEvents(newEvent) {
-            this.events = [...this.events, newEvent]
-        },
-
-        deleteEvent(id){
-        },
-        AddingNewEvent(e)
+        getAllEvents(e)
         {   //add new event method
-            e.preventDefault();
+            let url = 'http://localhost:3000/get-unauthorized-events'
+            this.$http.post(url)
+            .then(response => {
+                this.events = response.data.rows
+                if (response.data.rows == null) {
+                    alert('empty data')
+                }
+            })
+            .catch((err) => {
+                return console.error(err)
+            })
         },
-         DeletingEvent() {
-        }
     }
 }
 </script>

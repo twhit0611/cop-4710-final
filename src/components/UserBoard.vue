@@ -446,7 +446,7 @@ export default {
 
     tab: null,
     // complete list of RSO in the student school
-    RSO_list: ['Spanish Club', 'Hack@UCF', "IEEE"],
+    RSO_list: [],
 
     // boolean for modals
     join_modal: false,
@@ -494,6 +494,7 @@ export default {
 
   beforeMount() {
     this.getAllEvents()
+    this.getAllRSOs()
   },
 
   methods: {
@@ -558,7 +559,7 @@ export default {
     getAllEvents() {
       this.$http.post('http://localhost:3000/get-all-events')
       .then(response => {
-        if (response.data.rows == null) {alert('No events found.')}
+        if (response.data.rows == null) {return alert('No events found.')}
         response.data.rows.forEach((element, i) => {
           if (element.RSO_name != '' || element.admin_approved != null) {
             this.events.push(element)
@@ -567,6 +568,16 @@ export default {
       })
       .catch(err => {
         return console.error(err)
+      })
+    },
+
+    getAllRSOs() {
+      this.$http.post('http://localhost:3000/get-all-RSOs')
+      .then(response => {
+        if (response.data.rows == null) {return alert('No RSOs Found.')}
+        response.data.rows.forEach((element, i) => {
+          this.RSO_list.push(element.name)
+        })
       })
     }
   }
