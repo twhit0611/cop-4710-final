@@ -133,6 +133,18 @@ router.post('/login', (req, res) => {
     })
 })
 
+//Our delete route for deleting a user from an event
+router.delete('/delete-event', (req, res) => {
+
+    db.deleteuserfromRSO(req.body.name, (err) => {
+
+        if(err) return res.status(500).send("Error on the server!");
+        else res.send("Succesfully deleted the name of the associated RSO")
+    });
+
+});
+
+
 app.use(router)
 
 let port = process.env.PORT || 3000;
